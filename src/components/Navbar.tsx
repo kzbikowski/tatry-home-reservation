@@ -6,6 +6,24 @@ import { Button } from '@/components/ui/button';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const scrollToBooking = () => {
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+      // Add a slight delay to ensure the element is found and scrolled to
+      setTimeout(() => {
+        bookingSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+      
+      // Also update URL hash for better UX
+      history.pushState({}, '', `#booking`);
+    } else {
+      console.error("Booking section not found");
+    }
+  };
+
   return (
     <nav className="bg-white/95 backdrop-blur-sm fixed w-full z-50 shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-4">
@@ -22,7 +40,11 @@ const Navbar = () => {
             <a href="#amenities" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Amenities</a>
             <a href="#booking" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Book Now</a>
             <a href="#contact" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Contact</a>
-            <Button variant="default" className="bg-tatryhome-700 hover:bg-tatryhome-800">
+            <Button 
+              variant="default" 
+              className="bg-tatryhome-700 hover:bg-tatryhome-800"
+              onClick={scrollToBooking}
+            >
               <Calendar className="mr-2 h-4 w-4" />
               Reserve
             </Button>
@@ -46,7 +68,13 @@ const Navbar = () => {
             <a href="#amenities" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Amenities</a>
             <a href="#booking" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Book Now</a>
             <a href="#contact" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Contact</a>
-            <Button className="bg-tatryhome-700 hover:bg-tatryhome-800 w-full">
+            <Button 
+              className="bg-tatryhome-700 hover:bg-tatryhome-800 w-full"
+              onClick={() => {
+                scrollToBooking();
+                setIsOpen(false);
+              }}
+            >
               <Calendar className="mr-2 h-4 w-4" />
               Reserve Now
             </Button>
