@@ -26,14 +26,39 @@ const Navbar = () => {
     }
   };
 
+  const scrollToHome = () => {
+    const homeSection = document.getElementById('home');
+    if (homeSection) {
+      // Add a slight delay to ensure the element is found and scrolled to
+      setTimeout(() => {
+        homeSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+      
+      // Also update URL hash for better UX
+      history.pushState({}, '', `#home`);
+    } else {
+      console.error("Home section not found");
+    }
+  };
+
   return (
     <nav className="bg-white/95 backdrop-blur-sm fixed w-full z-50 shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <a 
+            href="#home" 
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToHome();
+            }}
+            className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <Home className="h-6 w-6 text-tatryhome-700" />
             <span className="font-bold text-xl text-tatryhome-700">Tatry Home</span>
-          </div>
+          </a>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
