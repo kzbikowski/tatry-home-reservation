@@ -58,7 +58,7 @@ const BookingForm = () => {
         body: JSON.stringify({
           from: 'Tatry Home <onboarding@resend.dev>',
           to: ['tatryhomepl@gmail.com'],
-          subject: 'New Booking Request - Tatry Home',
+          subject: `New Booking Request - Tatry Home | ${data.email} (${data.firstName} ${data.lastName})`,
           html: `
             <h2>New Booking Request</h2>
             <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
