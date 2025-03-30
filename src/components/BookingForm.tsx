@@ -44,7 +44,12 @@ const BookingForm = () => {
     }
 
     try {
-      const response = await fetch('/api/resend/emails', {
+      // Use proxy in development, direct API in production
+      const apiUrl = import.meta.env.DEV 
+        ? '/api/resend/emails'
+        : 'https://api.resend.com/emails';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
