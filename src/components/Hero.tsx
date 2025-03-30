@@ -5,7 +5,18 @@ const Hero = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Add a slight delay to ensure the element is found and scrolled to
+      setTimeout(() => {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+      
+      // Also update URL hash for better UX
+      history.pushState({}, '', `#${sectionId}`);
+    } else {
+      console.error(`Element with id '${sectionId}' not found`);
     }
   };
 

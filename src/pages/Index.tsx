@@ -14,9 +14,9 @@ const Index = () => {
       <Navbar />
       <Hero />
       <About />
-      <Gallery />
+      <Gallery /> {/* Has id="gallery" */}
       <Amenities />
-      <BookingForm />
+      <BookingForm /> {/* Should have id="booking" */}
       <Contact />
       <Footer />
     </div>
