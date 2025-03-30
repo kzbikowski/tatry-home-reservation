@@ -37,23 +37,49 @@ const BookingForm = () => {
     formState: { errors },
   } = useForm<BookingFormData>();
 
-  const onSubmit = (data: BookingFormData) => {
+  const onSubmit = async (data: BookingFormData) => {
     if (!checkIn || !checkOut) {
       toast.error(t('booking.error.dates'));
       return;
     }
 
-    // In a real application, you would send this data to your backend
-    console.log({
-      ...data,
-      checkIn,
-      checkOut,
-    });
+    try {
+      const response = await fetch('/api/resend/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Tatry Home <onboarding@resend.dev>',
+          to: ['tatryhomepl@gmail.com'],
+          subject: 'New Booking Request - Tatry Home',
+          html: `
+            <h2>New Booking Request</h2>
+            <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Check-in:</strong> ${new Date(checkIn).toLocaleDateString()}</p>
+            <p><strong>Check-out:</strong> ${new Date(checkOut).toLocaleDateString()}</p>
+            <p><strong>Guests:</strong> ${data.guests}</p>
+            <p><strong>Message:</strong> ${data.message || 'No message provided'}</p>
+          `,
+        }),
+      });
 
-    toast.success(t('booking.success'));
-    reset();
-    setCheckIn(undefined);
-    setCheckOut(undefined);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      toast.success(t('booking.success'));
+      reset();
+      setCheckIn(undefined);
+      setCheckOut(undefined);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error('Failed to send booking request. Please try again later.');
+    }
   };
 
   return (
