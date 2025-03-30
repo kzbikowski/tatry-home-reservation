@@ -20,6 +20,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_RESEND_API_KEY: ${{ secrets.VITE_RESEND_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
