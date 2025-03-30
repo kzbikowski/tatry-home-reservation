@@ -2,43 +2,44 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/i18n';
+import { getImagePath } from '@/lib/utils';
 
 // Image gallery data
 const galleryImages = [
   {
-    src: "/images/leaving_room.jpg",
+    src: "images/leaving_room.jpg",
     altKey: "gallery.livingArea"
   },
   {
-    src: "/images/mountain_view.jpg",
+    src: "images/mountain_view.jpg",
     altKey: "gallery.mountainView"
   },
   {
-    src: "/images/bedroom1.jpg",
+    src: "images/bedroom1.jpg",
     altKey: "gallery.bedroom"
   },
   {
-    src: "/images/house_outside.jpg",
+    src: "images/house_outside.jpg",
     altKey: "gallery.houseExterior"
   },
   {
-    src: "/images/kitchen.jpg",
+    src: "images/kitchen.jpg",
     altKey: "gallery.kitchen"
   },
   {
-    src: "/images/bathroom_1.jpg",
+    src: "images/bathroom_1.jpg",
     altKey: "gallery.bathroom"
   },
   {
-    src: "/images/leaving_room_2.jpg",
+    src: "images/leaving_room_2.jpg",
     altKey: "gallery.livingArea2"
   },
   {
-    src: "/images/bedroom2.jpg",
+    src: "images/bedroom2.jpg",
     altKey: "gallery.bedroom2"
   },
   {
-    src: "/images/kitchen_2.jpg",
+    src: "images/kitchen_2.jpg",
     altKey: "gallery.kitchen2"
   }
 ];
@@ -83,7 +84,7 @@ const Gallery = () => {
               onClick={() => openLightbox(index)}
             >
               <img
-                src={image.src}
+                src={getImagePath(image.src)}
                 alt={t(image.altKey)}
                 className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
               />
@@ -116,7 +117,7 @@ const Gallery = () => {
             </Button>
             
             <img
-              src={galleryImages[currentImage].src}
+              src={getImagePath(galleryImages[currentImage].src)}
               alt={t(galleryImages[currentImage].altKey)}
               className="max-h-[80vh] max-w-[80vw] object-contain"
             />

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/i18n';
+import { getImagePath } from '@/lib/utils';
 
 const About = () => {
   const { t } = useLanguage();
@@ -29,7 +30,7 @@ const About = () => {
           </div>
           <div className="relative">
             <img 
-              src="/images/leaving_room.jpg" 
+              src={getImagePath('images/leaving_room.jpg')}
               alt="Tatry Home Interior" 
               className="rounded-lg shadow-xl object-cover w-full h-[400px]"
             />

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/i18n';
+import { getImagePath } from '@/lib/utils';
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -28,7 +29,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center" 
         style={{ 
-          backgroundImage: "url('/images/house_outside_3.jpg')",
+          backgroundImage: `url('${getImagePath('images/house_outside_3.jpg')}')`,
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
