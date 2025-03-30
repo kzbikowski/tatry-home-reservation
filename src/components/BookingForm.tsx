@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useLanguage } from '@/lib/i18n';
 
 interface BookingFormData {
   firstName: string;
@@ -28,6 +28,7 @@ interface BookingFormData {
 const BookingForm = () => {
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
+  const { t } = useLanguage();
   
   const {
     register,
@@ -38,7 +39,7 @@ const BookingForm = () => {
 
   const onSubmit = (data: BookingFormData) => {
     if (!checkIn || !checkOut) {
-      toast.error("Please select check-in and check-out dates");
+      toast.error(t('booking.error.dates'));
       return;
     }
 
@@ -49,7 +50,7 @@ const BookingForm = () => {
       checkOut,
     });
 
-    toast.success("Booking request sent successfully! We'll contact you soon.");
+    toast.success(t('booking.success'));
     reset();
     setCheckIn(undefined);
     setCheckOut(undefined);
@@ -61,20 +62,20 @@ const BookingForm = () => {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
-              Book Your Stay
+              {t('booking.title')}
             </h2>
             <p className="text-gray-600">
-              Fill out the form below to request a reservation for your preferred dates.
+              {t('booking.subtitle')}
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">{t('booking.firstName')}</Label>
                 <Input
                   id="firstName"
-                  {...register("firstName", { required: "First name is required" })}
+                  {...register("firstName", { required: t('booking.error.firstName') })}
                   className={cn(errors.firstName && "border-red-500")}
                 />
                 {errors.firstName && (
@@ -83,10 +84,10 @@ const BookingForm = () => {
               </div>
               
               <div>
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">{t('booking.lastName')}</Label>
                 <Input
                   id="lastName"
-                  {...register("lastName", { required: "Last name is required" })}
+                  {...register("lastName", { required: t('booking.error.lastName') })}
                   className={cn(errors.lastName && "border-red-500")}
                 />
                 {errors.lastName && (
@@ -97,15 +98,15 @@ const BookingForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('booking.email')}</Label>
                 <Input
                   id="email"
                   type="email"
                   {...register("email", {
-                    required: "Email is required",
+                    required: t('booking.error.email'),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address",
+                      message: t('booking.error.emailInvalid'),
                     },
                   })}
                   className={cn(errors.email && "border-red-500")}
@@ -116,10 +117,10 @@ const BookingForm = () => {
               </div>
               
               <div>
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">{t('booking.phone')}</Label>
                 <Input
                   id="phone"
-                  {...register("phone", { required: "Phone number is required" })}
+                  {...register("phone", { required: t('booking.error.phone') })}
                   className={cn(errors.phone && "border-red-500")}
                 />
                 {errors.phone && (
@@ -130,7 +131,7 @@ const BookingForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <Label>Check-in Date</Label>
+                <Label>{t('booking.checkIn')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -141,7 +142,7 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkIn ? format(checkIn, "PPP") : <span>Pick a date</span>}
+                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.pickDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
@@ -158,7 +159,7 @@ const BookingForm = () => {
               </div>
               
               <div>
-                <Label>Check-out Date</Label>
+                <Label>{t('booking.checkOut')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -169,7 +170,7 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkOut ? format(checkOut, "PPP") : <span>Pick a date</span>}
+                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.pickDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
@@ -178,7 +179,7 @@ const BookingForm = () => {
                       selected={checkOut}
                       onSelect={setCheckOut}
                       initialFocus
-                      disabled={(date) => date < (checkIn || new Date())}
+                      disabled={(date) => date < new Date()}
                       className={cn("p-3 pointer-events-auto")}
                     />
                   </PopoverContent>
@@ -186,7 +187,7 @@ const BookingForm = () => {
               </div>
               
               <div>
-                <Label htmlFor="guests">Number of Guests</Label>
+                <Label htmlFor="guests">{t('booking.guests')}</Label>
                 <Input
                   id="guests"
                   type="number"
@@ -194,14 +195,14 @@ const BookingForm = () => {
                   max="6"
                   defaultValue="2"
                   {...register("guests", {
-                    required: "Number of guests is required",
+                    required: t('booking.error.guests'),
                     min: {
                       value: 1,
-                      message: "Minimum 1 guest",
+                      message: t('booking.error.guestsMin'),
                     },
                     max: {
                       value: 6,
-                      message: "Maximum 6 guests",
+                      message: t('booking.error.guestsMax'),
                     },
                   })}
                   className={cn(errors.guests && "border-red-500")}
@@ -213,17 +214,17 @@ const BookingForm = () => {
             </div>
 
             <div>
-              <Label htmlFor="message">Special Requests</Label>
+              <Label htmlFor="message">{t('booking.message')}</Label>
               <Textarea
                 id="message"
-                placeholder="Any special requests or questions?"
+                placeholder={t('booking.messagePlaceholder')}
                 {...register("message")}
                 className="h-32"
               />
             </div>
 
             <Button type="submit" className="w-full bg-tatryhome-700 hover:bg-tatryhome-800 text-lg py-6">
-              Send Booking Request
+              {t('booking.submit')}
             </Button>
           </form>
         </div>

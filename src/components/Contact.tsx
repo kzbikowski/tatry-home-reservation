@@ -1,17 +1,19 @@
-
 import { PhoneCall, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from '@/lib/i18n';
 
 const Contact = () => {
+  const { t } = useLanguage();
+  
   return (
     <section id="contact" className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
-            Contact Us
+            {t('contact.title')}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Have questions or need more information? Feel free to reach out to us.
+            {t('contact.subtitle')}
           </p>
         </div>
 
@@ -22,9 +24,9 @@ const Contact = () => {
                 <PhoneCall className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-mountain-800 mb-1">Phone</h3>
-                <p className="text-gray-700">+48 123 456 789</p>
-                <p className="text-gray-500 text-sm mt-1">Available 9:00 AM - 8:00 PM</p>
+                <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.phone')}</h3>
+                <p className="text-gray-700">{t('contact.phoneNumber')}</p>
+                <p className="text-gray-500 text-sm mt-1">{t('contact.phoneHours')}</p>
               </div>
             </div>
 
@@ -33,9 +35,9 @@ const Contact = () => {
                 <Mail className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-mountain-800 mb-1">Email</h3>
-                <p className="text-gray-700">contact@tatryhome.pl</p>
-                <p className="text-gray-500 text-sm mt-1">We'll respond as soon as possible</p>
+                <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.email')}</h3>
+                <p className="text-gray-700">{t('contact.emailAddress')}</p>
+                <p className="text-gray-500 text-sm mt-1">{t('contact.emailResponse')}</p>
               </div>
             </div>
 
@@ -44,9 +46,9 @@ const Contact = () => {
                 <MapPin className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-mountain-800 mb-1">Location</h3>
-                <p className="text-gray-700">Zakopane, Poland</p>
-                <p className="text-gray-500 text-sm mt-1">In the heart of Tatra Mountains</p>
+                <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.location')}</h3>
+                <p className="text-gray-700">{t('contact.address')}</p>
+                <p className="text-gray-500 text-sm mt-1">{t('contact.addressDesc')}</p>
               </div>
             </div>
 
@@ -57,7 +59,7 @@ const Contact = () => {
                 rel="noopener noreferrer"
               >
                 <Button variant="outline" className="border-tatryhome-700 text-tatryhome-700 hover:bg-tatryhome-50">
-                  View on Booking.com
+                  {t('contact.bookingCom')}
                 </Button>
               </a>
             </div>

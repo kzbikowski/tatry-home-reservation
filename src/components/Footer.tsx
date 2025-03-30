@@ -1,7 +1,9 @@
-
 import { Home } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
 
 const Footer = () => {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-mountain-900 text-white py-12">
       <div className="container mx-auto px-4 md:px-6">
@@ -29,37 +31,37 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
-              <li><a href="#home" className="text-gray-300 hover:text-white transition-colors">Home</a></li>
-              <li><a href="#gallery" className="text-gray-300 hover:text-white transition-colors">Gallery</a></li>
-              <li><a href="#amenities" className="text-gray-300 hover:text-white transition-colors">Amenities</a></li>
-              <li><a href="#booking" className="text-gray-300 hover:text-white transition-colors">Booking</a></li>
+              <li><a href="#home" className="text-gray-300 hover:text-white transition-colors">{t('footer.home')}</a></li>
+              <li><a href="#gallery" className="text-gray-300 hover:text-white transition-colors">{t('footer.gallery')}</a></li>
+              <li><a href="#amenities" className="text-gray-300 hover:text-white transition-colors">{t('footer.amenities')}</a></li>
+              <li><a href="#booking" className="text-gray-300 hover:text-white transition-colors">{t('footer.booking')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Nearby Attractions</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('footer.nearbyAttractions')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Tatra National Park</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Krupówki Street</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Gubałówka</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Kasprowy Wierch</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.tatraPark')}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.krupowki')}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.gubalowka')}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.kasprowy')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Legal</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('footer.legal')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms & Conditions</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Cookie Policy</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.privacy')}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.terms')}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t('footer.cookies')}</a></li>
             </ul>
           </div>
         </div>
         
         <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Tatry Home. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Tatry Home. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

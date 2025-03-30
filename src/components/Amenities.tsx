@@ -1,4 +1,3 @@
-
 import { 
   Bed, 
   Wifi, 
@@ -10,72 +9,75 @@ import {
   ShowerHead,
   Coffee
 } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
 
 // Amenity type
 interface Amenity {
   icon: React.ReactNode;
-  name: string;
-  description: string;
+  nameKey: string;
+  descriptionKey: string;
 }
 
 const amenities: Amenity[] = [
   {
     icon: <Bed className="h-6 w-6" />,
-    name: "Comfortable Beds",
-    description: "Quality mattresses and linens for a restful sleep"
+    nameKey: "amenities.comfortableBeds",
+    descriptionKey: "amenities.comfortableBedsDesc"
   },
   {
     icon: <Wifi className="h-6 w-6" />,
-    name: "Free Wi-Fi",
-    description: "High-speed internet throughout the apartment"
+    nameKey: "amenities.wifi",
+    descriptionKey: "amenities.wifiDesc"
   },
   {
     icon: <Tv className="h-6 w-6" />,
-    name: "Smart TV",
-    description: "Flat-screen TV with streaming capabilities"
+    nameKey: "amenities.smartTv",
+    descriptionKey: "amenities.smartTvDesc"
   },
   {
     icon: <UtensilsCrossed className="h-6 w-6" />,
-    name: "Fully Equipped Kitchen",
-    description: "Everything you need to prepare your meals"
+    nameKey: "amenities.kitchen",
+    descriptionKey: "amenities.kitchenDesc"
   },
   {
     icon: <CarFront className="h-6 w-6" />,
-    name: "Free Parking",
-    description: "Convenient parking space for your vehicle"
+    nameKey: "amenities.parking",
+    descriptionKey: "amenities.parkingDesc"
   },
   {
     icon: <Mountain className="h-6 w-6" />,
-    name: "Mountain View",
-    description: "Stunning panorama of the Tatra Mountains"
+    nameKey: "amenities.mountainView",
+    descriptionKey: "amenities.mountainViewDesc"
   },
   {
     icon: <Thermometer className="h-6 w-6" />,
-    name: "Heating & Cooling",
-    description: "Comfortable temperature year-round"
+    nameKey: "amenities.heating",
+    descriptionKey: "amenities.heatingDesc"
   },
   {
     icon: <ShowerHead className="h-6 w-6" />,
-    name: "Modern Bathroom",
-    description: "Shower, toiletries, and fresh towels provided"
+    nameKey: "amenities.bathroom",
+    descriptionKey: "amenities.bathroomDesc"
   },
   {
     icon: <Coffee className="h-6 w-6" />,
-    name: "Coffee Machine",
-    description: "Start your day with a perfect cup of coffee"
+    nameKey: "amenities.coffee",
+    descriptionKey: "amenities.coffeeDesc"
   }
 ];
 
 const Amenities = () => {
+  const { t } = useLanguage();
+  
   return (
     <section id="amenities" className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
-            Apartment Amenities
+            {t('amenities.title')}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Our apartment is equipped with everything you need for a comfortable and enjoyable stay.
+            {t('amenities.subtitle')}
           </p>
         </div>
 
@@ -89,9 +91,9 @@ const Amenities = () => {
                 <div className="p-2 bg-tatryhome-100 rounded-full text-tatryhome-700 mr-4">
                   {amenity.icon}
                 </div>
-                <h3 className="font-semibold text-lg text-mountain-800">{amenity.name}</h3>
+                <h3 className="font-semibold text-lg text-mountain-800">{t(amenity.nameKey)}</h3>
               </div>
-              <p className="text-gray-600">{amenity.description}</p>
+              <p className="text-gray-600">{t(amenity.descriptionKey)}</p>
             </div>
           ))}
         </div>

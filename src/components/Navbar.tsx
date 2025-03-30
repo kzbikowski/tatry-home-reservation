@@ -1,10 +1,12 @@
-
 import { useState } from 'react';
 import { Menu, X, Home, Calendar, Image, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '@/lib/i18n';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const scrollToBooking = () => {
     const bookingSection = document.getElementById('booking');
@@ -35,23 +37,25 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#home" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Home</a>
-            <a href="#gallery" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Gallery</a>
-            <a href="#amenities" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Amenities</a>
-            <a href="#booking" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Book Now</a>
-            <a href="#contact" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">Contact</a>
+            <a href="#home" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.home')}</a>
+            <a href="#gallery" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.gallery')}</a>
+            <a href="#amenities" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.amenities')}</a>
+            <a href="#booking" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.bookNow')}</a>
+            <a href="#contact" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.contact')}</a>
+            <LanguageSwitcher />
             <Button 
               variant="default" 
               className="bg-tatryhome-700 hover:bg-tatryhome-800"
               onClick={scrollToBooking}
             >
               <Calendar className="mr-2 h-4 w-4" />
-              Reserve
+              {t('nav.reserve')}
             </Button>
           </div>
           
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-4">
+            <LanguageSwitcher />
             <Button variant="ghost" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -63,11 +67,11 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white border-t animate-fade-in">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <a href="#home" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Home</a>
-            <a href="#gallery" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Gallery</a>
-            <a href="#amenities" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Amenities</a>
-            <a href="#booking" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Book Now</a>
-            <a href="#contact" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Contact</a>
+            <a href="#home" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.home')}</a>
+            <a href="#gallery" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.gallery')}</a>
+            <a href="#amenities" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.amenities')}</a>
+            <a href="#booking" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.bookNow')}</a>
+            <a href="#contact" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.contact')}</a>
             <Button 
               className="bg-tatryhome-700 hover:bg-tatryhome-800 w-full"
               onClick={() => {
@@ -76,7 +80,7 @@ const Navbar = () => {
               }}
             >
               <Calendar className="mr-2 h-4 w-4" />
-              Reserve Now
+              {t('nav.reserve')}
             </Button>
           </div>
         </div>

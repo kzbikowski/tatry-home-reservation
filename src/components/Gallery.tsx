@@ -1,37 +1,51 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 
 // Image gallery data
 const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=800&q=80",
-    alt: "Living area"
+    src: "/images/leaving_room.jpg",
+    altKey: "gallery.livingArea"
   },
   {
-    src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80",
-    alt: "Mountain view"
+    src: "/images/mountain_view.jpg",
+    altKey: "gallery.mountainView"
   },
   {
-    src: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80",
-    alt: "Bedroom"
+    src: "/images/bedroom1.jpg",
+    altKey: "gallery.bedroom"
   },
   {
-    src: "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80",
-    alt: "Surrounding nature"
+    src: "/images/house_outside.jpg",
+    altKey: "gallery.houseExterior"
   },
   {
-    src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=800&q=80",
-    alt: "Kitchen area"
+    src: "/images/kitchen.jpg",
+    altKey: "gallery.kitchen"
   },
   {
-    src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80",
-    alt: "Bathroom"
+    src: "/images/bathroom_1.jpg",
+    altKey: "gallery.bathroom"
   },
+  {
+    src: "/images/leaving_room_2.jpg",
+    altKey: "gallery.livingArea2"
+  },
+  {
+    src: "/images/bedroom2.jpg",
+    altKey: "gallery.bedroom2"
+  },
+  {
+    src: "/images/kitchen_2.jpg",
+    altKey: "gallery.kitchen2"
+  }
 ];
 
 const Gallery = () => {
   const [currentImage, setCurrentImage] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   const openLightbox = (index: number) => {
     setCurrentImage(index);
@@ -54,10 +68,10 @@ const Gallery = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
-            Apartment Gallery
+            {t('gallery.title')}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Take a visual tour of our beautiful apartment and see what awaits you at Tatry Home.
+            {t('gallery.subtitle')}
           </p>
         </div>
 
@@ -70,12 +84,12 @@ const Gallery = () => {
             >
               <img
                 src={image.src}
-                alt={image.alt}
+                alt={t(image.altKey)}
                 className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
                 <div className="p-4 text-white w-full">
-                  <p className="font-medium">{image.alt}</p>
+                  <p className="font-medium">{t(image.altKey)}</p>
                 </div>
               </div>
             </div>
@@ -103,7 +117,7 @@ const Gallery = () => {
             
             <img
               src={galleryImages[currentImage].src}
-              alt={galleryImages[currentImage].alt}
+              alt={t(galleryImages[currentImage].altKey)}
               className="max-h-[80vh] max-w-[80vw] object-contain"
             />
             
