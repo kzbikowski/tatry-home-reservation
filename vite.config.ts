@@ -9,7 +9,8 @@ export default defineConfig(({ command }) => ({
     react(),
     command === 'serve' && componentTagger(),
   ].filter(Boolean),
-  base: command === 'build' ? '/tatry-home-reservation/' : '/',
+  // Use the custom domain in production, but keep the GitHub Pages path for development
+  base: command === 'build' ? 'https://tatryhome.pl/' : '/tatry-home-reservation/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -24,4 +25,6 @@ export default defineConfig(({ command }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  publicDir: 'public',
+  assetsInclude: ['**/*.jpg', '**/*.png', '**/*.gif', '**/*.webp'],
 }));
