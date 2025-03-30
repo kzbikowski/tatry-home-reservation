@@ -2,6 +2,13 @@
 import { Button } from '@/components/ui/button';
 
 const Hero = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="relative h-screen overflow-hidden">
       {/* Background Image */}
@@ -24,10 +31,17 @@ const Hero = () => {
           The perfect accommodation for your mountain getaway.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-          <Button className="bg-tatryhome-700 hover:bg-tatryhome-800 text-white font-medium px-6 py-3 text-lg">
+          <Button 
+            className="bg-tatryhome-700 hover:bg-tatryhome-800 text-white font-medium px-6 py-3 text-lg"
+            onClick={() => scrollToSection('booking')}
+          >
             Book Your Stay
           </Button>
-          <Button variant="outline" className="border-white text-white hover:bg-white/20 font-medium px-6 py-3 text-lg">
+          <Button 
+            variant="outline" 
+            className="border-white text-white hover:bg-white/20 font-medium px-6 py-3 text-lg"
+            onClick={() => scrollToSection('gallery')}
+          >
             View Gallery
           </Button>
         </div>
