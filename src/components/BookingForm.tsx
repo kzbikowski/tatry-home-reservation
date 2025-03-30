@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
+import { format, isBefore, isAfter, isSameDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useLanguage } from '@/lib/i18n';
+import { fetchBookings, isDateAvailable, isPeriodAvailable } from '@/lib/calendar';
 
 interface BookingFormData {
   firstName: string;
@@ -28,7 +29,21 @@ interface BookingFormData {
 const BookingForm = () => {
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
+  const [bookings, setBookings] = useState<Array<{ start: Date; end: Date }>>([]);
   const { t } = useLanguage();
+  
+  useEffect(() => {
+    const loadBookings = async () => {
+      console.log('Loading bookings in BookingForm...');
+      const fetchedBookings = await fetchBookings();
+      console.log('Fetched bookings in BookingForm:', fetchedBookings.map(b => ({
+        start: format(b.start, 'yyyy-MM-dd'),
+        end: format(b.end, 'yyyy-MM-dd')
+      })));
+      setBookings(fetchedBookings);
+    };
+    loadBookings();
+  }, []);
   
   const {
     register,
@@ -37,9 +52,46 @@ const BookingForm = () => {
     formState: { errors },
   } = useForm<BookingFormData>();
 
+  const handleCheckInSelect = (date: Date | undefined) => {
+    console.log('Check-in selected:', date ? format(date, 'yyyy-MM-dd') : 'undefined');
+    setCheckIn(date);
+    // Reset check-out if it's before the new check-in date
+    if (date && checkOut && isBefore(checkOut, date)) {
+      setCheckOut(undefined);
+    }
+  };
+
+  const handleCheckOutSelect = (date: Date | undefined) => {
+    console.log('Check-out selected:', date ? format(date, 'yyyy-MM-dd') : 'undefined');
+    if (date && checkIn && isBefore(date, checkIn)) {
+      toast.error(t('booking.error.checkout_before_checkin'));
+      return;
+    }
+    setCheckOut(date);
+  };
+
+  const isDateDisabled = (date: Date) => {
+    const isDisabled = !isDateAvailable(date, bookings);
+    console.log('Date disabled check:', {
+      date: format(date, 'yyyy-MM-dd'),
+      isDisabled,
+      bookings: bookings.map(b => ({
+        start: format(b.start, 'yyyy-MM-dd'),
+        end: format(b.end, 'yyyy-MM-dd')
+      }))
+    });
+    return isDisabled;
+  };
+
   const onSubmit = async (data: BookingFormData) => {
     if (!checkIn || !checkOut) {
       toast.error(t('booking.error.dates'));
+      return;
+    }
+
+    // Check if the entire period is available
+    if (!isPeriodAvailable(checkIn, checkOut, bookings)) {
+      toast.error(t('booking.error.dates_unavailable'));
       return;
     }
 
@@ -58,7 +110,7 @@ const BookingForm = () => {
         body: JSON.stringify({
           from: 'Tatry Home <onboarding@resend.dev>',
           to: ['tatryhomepl@gmail.com'],
-          subject: `New Booking Request - Tatry Home | ${data.email} (${data.firstName} ${data.lastName})`,
+          subject: `New Booking Request - Tatry Home (${format(checkIn, 'dd.MM.yyyy')} - ${format(checkOut, 'dd.MM.yyyy')})`,
           html: `
             <h2>New Booking Request</h2>
             <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
@@ -173,16 +225,16 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.pickDate')}</span>}
+                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.selectDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
                     <Calendar
                       mode="single"
                       selected={checkIn}
-                      onSelect={setCheckIn}
+                      onSelect={handleCheckInSelect}
                       initialFocus
-                      disabled={(date) => date < new Date()}
+                      disabled={isDateDisabled}
                       className={cn("p-3 pointer-events-auto")}
                     />
                   </PopoverContent>
@@ -201,16 +253,16 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.pickDate')}</span>}
+                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.selectDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
                     <Calendar
                       mode="single"
                       selected={checkOut}
-                      onSelect={setCheckOut}
+                      onSelect={handleCheckOutSelect}
                       initialFocus
-                      disabled={(date) => date < new Date()}
+                      disabled={isDateDisabled}
                       className={cn("p-3 pointer-events-auto")}
                     />
                   </PopoverContent>

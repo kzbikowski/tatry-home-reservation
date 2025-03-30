@@ -1,0 +1,24 @@
+{
+  "booking": {
+    "title": "Zarezerwuj Pobyt",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "email": "Email",
+    "phone": "Telefon",
+    "checkIn": "Data Zameldowania",
+    "checkOut": "Data Wymeldowania",
+    "guests": "Liczba Gości",
+    "message": "Wiadomość (opcjonalnie)",
+    "submit": "Wyślij Zgłoszenie",
+    "success": "Zgłoszenie zostało wysłane pomyślnie!",
+    "error": {
+      "required": "To pole jest wymagane",
+      "email": "Proszę podać prawidłowy adres email",
+      "dates": "Proszę wybrać datę zameldowania i wymeldowania",
+      "dates_unavailable": "Wybrane daty nie są dostępne",
+      "guests": "Proszę wybrać minimum 1 gościa",
+      "checkout_before_checkin": "Data wymeldowania nie może być wcześniejsza niż data zameldowania"
+    },
+    "selectDate": "Wybierz datę"
+  }
+} 
