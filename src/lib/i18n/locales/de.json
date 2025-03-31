@@ -1,6 +1,6 @@
 {
   "booking": {
-    "title": "Buchen Sie Ihren Aufenthalt",
+    "title": "Verfügbarkeit Prüfen",
     "firstName": "Vorname",
     "lastName": "Nachname",
     "email": "E-Mail",
@@ -9,16 +9,22 @@
     "checkOut": "Check-out Datum",
     "guests": "Anzahl der Gäste",
     "message": "Nachricht (optional)",
+    "askForOffer": "Angebot Anfordern",
     "submit": "Buchungsanfrage absenden",
-    "success": "Buchungsanfrage erfolgreich gesendet!",
+    "success": "Anfrage erfolgreich gesendet! Wir werden uns bald bei Ihnen melden.",
     "error": {
       "required": "Dieses Feld ist erforderlich",
       "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
       "dates": "Bitte wählen Sie Check-in und Check-out Datum",
       "dates_unavailable": "Die ausgewählten Daten sind nicht verfügbar",
       "guests": "Bitte wählen Sie mindestens 1 Gast",
-      "checkout_before_checkin": "Check-out Datum kann nicht vor Check-in Datum liegen"
+      "checkout_before_checkin": "Check-out Datum kann nicht vor Check-in Datum liegen",
+      "firstName": "Vorname ist erforderlich",
+      "lastName": "Nachname ist erforderlich",
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "phone": "Telefonnummer ist erforderlich"
     },
-    "selectDate": "Datum auswählen"
+    "selectDate": "Datum auswählen",
+    "available_message": "Ausgewählter Zeitraum ist verfügbar: fordern Sie ein Angebot an oder rufen Sie uns an, um zu reservieren"
   }
 } 

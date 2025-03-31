@@ -22,8 +22,6 @@ interface BookingFormData {
   lastName: string;
   email: string;
   phone: string;
-  guests: number;
-  message: string;
 }
 
 const BookingForm = () => {
@@ -172,12 +170,9 @@ const BookingForm = () => {
             <h2>${t('booking.email.newBooking')}</h2>
             <p><strong>${t('booking.email.checkIn')}:</strong> ${format(checkIn, "PPP")}</p>
             <p><strong>${t('booking.email.checkOut')}:</strong> ${format(checkOut, "PPP")}</p>
-            <p><strong>${t('booking.email.guests')}:</strong> ${data.guests}</p>
             <p><strong>${t('booking.email.name')}:</strong> ${data.firstName} ${data.lastName}</p>
             <p><strong>${t('booking.email.email')}:</strong> ${data.email}</p>
             <p><strong>${t('booking.email.phone')}:</strong> ${data.phone}</p>
-            <p><strong>${t('booking.email.message')}:</strong></p>
-            <p>${data.message}</p>
           `,
         }),
       });
@@ -220,146 +215,156 @@ const BookingForm = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
               {t('booking.title')}
             </h2>
-            <p className="text-gray-600">
-              {t('booking.subtitle')}
-            </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="firstName">{t('booking.firstName')}</Label>
-                <Input
-                  id="firstName"
-                  {...register("firstName", { required: t('booking.error.firstName') })}
-                  className={cn(errors.firstName && "border-red-500")}
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
-                )}
-              </div>
-              
-              <div>
-                <Label htmlFor="lastName">{t('booking.lastName')}</Label>
-                <Input
-                  id="lastName"
-                  {...register("lastName", { required: t('booking.error.lastName') })}
-                  className={cn(errors.lastName && "border-red-500")}
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
-                )}
-              </div>
+            <div className="mb-8">
+              <Label>{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !checkIn && !checkOut && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {checkIn && checkOut ? (
+                      <span>
+                        {format(checkIn, "PPP")} - {format(checkOut, "PPP")}
+                      </span>
+                    ) : (
+                      <span>{t('booking.pickDate')}</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
+                  <Calendar
+                    mode="range"
+                    selected={{ from: checkIn, to: checkOut }}
+                    onSelect={handleDateSelect}
+                    initialFocus
+                    disabled={isDateDisabled}
+                    className={cn("p-3 pointer-events-auto")}
+                    numberOfMonths={2}
+                    classNames={{
+                      months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                      month: "space-y-4",
+                      caption: "flex justify-center pt-1 relative items-center",
+                      caption_label: "text-base font-medium",
+                      nav: "space-x-1 flex items-center",
+                      nav_button: "h-8 w-8 bg-transparent p-0 opacity-50 hover:opacity-100",
+                      nav_button_previous: "absolute left-1",
+                      nav_button_next: "absolute right-1",
+                      table: "w-full border-collapse space-y-1",
+                      head_row: "flex",
+                      head_cell: "text-muted-foreground rounded-md w-10 font-normal text-sm",
+                      row: "flex w-full mt-2",
+                      cell: "h-10 w-10 text-center text-sm p-0 relative",
+                      day: "h-10 w-10 p-0 font-normal",
+                      day_today: "bg-accent text-accent-foreground",
+                      day_outside: "day-outside text-muted-foreground opacity-50",
+                      day_disabled: "text-muted-foreground opacity-50",
+                      day_hidden: "invisible",
+                      day_selected: "rdp-day_selected",
+                      day_range_start: "rdp-day_range_start",
+                      day_range_end: "rdp-day_range_end",
+                      day_range_middle: "rdp-day_range_middle",
+                    }}
+                    modifiers={{
+                      available: (date) => isDateAvailable(date, bookings),
+                      unavailable: (date) => !isDateAvailable(date, bookings),
+                    }}
+                    modifiersStyles={{
+                      available: {
+                        color: '#16a34a', // green-600
+                        fontWeight: 'bold',
+                        backgroundColor: '#dcfce7', // green-100
+                      },
+                      unavailable: {
+                        color: '#dc2626', // red-600
+                        fontWeight: 'bold',
+                        backgroundColor: '#fee2e2', // red-100
+                      },
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+
+              {checkIn && checkOut && isPeriodAvailable(checkIn, checkOut, bookings) && (
+                <div className="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                  <p className="text-base">{t('booking.available_message')}</p>
+                </div>
+              )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="email">{t('booking.email')}</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register("email", {
-                    required: t('booking.error.email'),
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: t('booking.error.emailInvalid'),
-                    },
-                  })}
-                  className={cn(errors.email && "border-red-500")}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                )}
-              </div>
-              
-              <div>
-                <Label htmlFor="phone">{t('booking.phone')}</Label>
-                <Input
-                  id="phone"
-                  {...register("phone", { required: t('booking.error.phone') })}
-                  className={cn(errors.phone && "border-red-500")}
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
-                <Label>{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !checkIn && !checkOut && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkIn && checkOut ? (
-                        <span>
-                          {format(checkIn, "PPP")} - {format(checkOut, "PPP")}
-                        </span>
-                      ) : (
-                        <span>{t('booking.pickDate')}</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
-                    <Calendar
-                      mode="range"
-                      selected={{ from: checkIn, to: checkOut }}
-                      onSelect={handleDateSelect}
-                      initialFocus
-                      disabled={isDateDisabled}
-                      className={cn("p-3 pointer-events-auto")}
+            {checkIn && checkOut && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="firstName">{t('booking.firstName')}</Label>
+                    <Input
+                      id="firstName"
+                      {...register("firstName", { required: t('booking.error.firstName') })}
+                      className={cn(errors.firstName && "border-red-500")}
                     />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              
-              <div>
-                <Label htmlFor="guests">{t('booking.guests')}</Label>
-                <Input
-                  id="guests"
-                  type="number"
-                  min="1"
-                  max="6"
-                  defaultValue="2"
-                  {...register("guests", {
-                    required: t('booking.error.guests'),
-                    min: {
-                      value: 1,
-                      message: t('booking.error.guestsMin'),
-                    },
-                    max: {
-                      value: 6,
-                      message: t('booking.error.guestsMax'),
-                    },
-                  })}
-                  className={cn(errors.guests && "border-red-500")}
-                />
-                {errors.guests && (
-                  <p className="text-red-500 text-sm mt-1">{errors.guests.message}</p>
-                )}
-              </div>
-            </div>
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="lastName">{t('booking.lastName')}</Label>
+                    <Input
+                      id="lastName"
+                      {...register("lastName", { required: t('booking.error.lastName') })}
+                      className={cn(errors.lastName && "border-red-500")}
+                    />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+                    )}
+                  </div>
+                </div>
 
-            <div>
-              <Label htmlFor="message">{t('booking.message')}</Label>
-              <Textarea
-                id="message"
-                placeholder={t('booking.messagePlaceholder')}
-                {...register("message")}
-                className="h-32"
-              />
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="email">{t('booking.email')}</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      {...register("email", {
+                        required: t('booking.error.email'),
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: t('booking.error.emailInvalid'),
+                        },
+                      })}
+                      className={cn(errors.email && "border-red-500")}
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="phone">{t('booking.phone')}</Label>
+                    <Input
+                      id="phone"
+                      {...register("phone", { required: t('booking.error.phone') })}
+                      className={cn(errors.phone && "border-red-500")}
+                    />
+                    {errors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                    )}
+                  </div>
+                </div>
 
-            <Button type="submit" className="w-full bg-tatryhome-700 hover:bg-tatryhome-800 text-lg py-6">
-              {t('booking.submit')}
-            </Button>
+                <Button type="submit" className="w-full bg-tatryhome-700 hover:bg-tatryhome-800 text-lg py-6">
+                  {t('booking.askForOffer')}
+                </Button>
+              </>
+            )}
           </form>
         </div>
       </div>

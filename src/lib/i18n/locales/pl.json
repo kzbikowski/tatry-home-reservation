@@ -1,6 +1,6 @@
 {
   "booking": {
-    "title": "Zarezerwuj Pobyt",
+    "title": "Sprawdź Dostępność",
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "email": "Email",
@@ -9,16 +9,22 @@
     "checkOut": "Data Wymeldowania",
     "guests": "Liczba Gości",
     "message": "Wiadomość (opcjonalnie)",
+    "askForOffer": "Poproś o Ofertę",
     "submit": "Wyślij Zgłoszenie",
-    "success": "Zgłoszenie zostało wysłane pomyślnie!",
+    "success": "Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.",
     "error": {
       "required": "To pole jest wymagane",
       "email": "Proszę podać prawidłowy adres email",
       "dates": "Proszę wybrać datę zameldowania i wymeldowania",
       "dates_unavailable": "Wybrane daty nie są dostępne",
+      "firstName": "Imię jest wymagane",
+      "lastName": "Nazwisko jest wymagane",
+      "emailInvalid": "Proszę podać prawidłowy adres email",
+      "phone": "Numer telefonu jest wymagany",
       "guests": "Proszę wybrać minimum 1 gościa",
       "checkout_before_checkin": "Data wymeldowania nie może być wcześniejsza niż data zameldowania"
     },
-    "selectDate": "Wybierz datę"
+    "selectDate": "Wybierz datę",
+    "available_message": "Wybrany termin jest dostępny: poproś o ofertę lub zadzwoń, aby zarezerwować"
   }
 } 

@@ -93,6 +93,8 @@ const translations: Translations = {
     'booking.error.dates': 'Proszę wybrać daty zameldowania i wymeldowania',
     'booking.error.dates_unavailable': 'Wybrane daty nie są dostępne',
     'booking.success': 'Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.',
+    'booking.available_message': 'Wybrany termin jest dostępny: poproś o ofertę lub zadzwoń, aby zarezerwować',
+    'booking.askForOffer': 'Poproś o Ofertę',
 
     // Contact
     'contact.title': 'Skontaktuj się z Nami',
@@ -214,6 +216,8 @@ const translations: Translations = {
     'booking.error.dates': 'Please select check-in and check-out dates',
     'booking.error.dates_unavailable': 'Selected dates are not available',
     'booking.success': 'Booking request sent successfully! We will contact you soon.',
+    'booking.available_message': 'Selected date is available: request a quote or call to book',
+    'booking.askForOffer': 'Request an Offer',
 
     // Contact
     'contact.title': 'Contact Us',
@@ -335,6 +339,8 @@ const translations: Translations = {
     'booking.error.dates': 'Bitte wählen Sie Check-in und Check-out Daten',
     'booking.error.dates_unavailable': 'Ausgewählte Daten sind nicht verfügbar',
     'booking.success': 'Buchungsanfrage erfolgreich gesendet! Wir werden uns bald bei Ihnen melden.',
+    'booking.available_message': 'Ausgewählter Termin ist verfügbar: bitten Sie um Angebot oder rufen Sie an, um zu buchen',
+    'booking.askForOffer': 'Angebot Anfordern',
 
     // Contact
     'contact.title': 'Kontaktieren Sie Uns',
