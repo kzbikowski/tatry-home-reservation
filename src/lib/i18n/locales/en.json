@@ -75,6 +75,7 @@
     "askForOffer": "Request an Offer",
     "available_message": "Selected date is available: request a quote or call to book",
     "success": "Booking request sent successfully! We will contact you soon.",
+    "confirmationMessage": "Thank you for your reservation! Your email has been sent. We will contact you shortly to confirm your booking details.",
     "error": {
       "firstName": "First name is required",
       "lastName": "Last name is required",

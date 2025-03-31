@@ -72,9 +72,9 @@
     "submit": "Wyślij Zgłoszenie",
     "pickDate": "Wybierz datę",
     "selectDate": "Wybierz datę",
-    "askForOffer": "Poproś o Ofertę",
-    "available_message": "Wybrany termin jest dostępny: poproś o ofertę lub zadzwoń, aby zarezerwować",
-    "success": "Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.",
+    "askForOffer": "Rezerwuję",
+    "available_message": "Wybrany termin jest dostępny! Wypełnij poniższe pola, aby dokończyć rezerwację",
+    "confirmationMessage": "Dziękujemy za Twoją rezerwację! Email został wysłany. Skontaktujemy się z Tobą wkrótce, aby potwierdzić szczegóły rezerwacji.",
     "error": {
       "firstName": "Imię jest wymagane",
       "lastName": "Nazwisko jest wymagane",

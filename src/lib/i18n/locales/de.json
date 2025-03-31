@@ -75,6 +75,7 @@
     "askForOffer": "Angebot Anfordern",
     "available_message": "Ausgewählter Termin ist verfügbar: bitten Sie um Angebot oder rufen Sie an, um zu buchen",
     "success": "Buchungsanfrage erfolgreich gesendet! Wir werden uns bald bei Ihnen melden.",
+    "confirmationMessage": "Vielen Dank für Ihre Reservierung! Ihre E-Mail wurde gesendet. Wir werden uns in Kürze mit Ihnen in Verbindung setzen, um Ihre Buchungsdetails zu bestätigen.",
     "error": {
       "firstName": "Vorname ist erforderlich",
       "lastName": "Nachname ist erforderlich",

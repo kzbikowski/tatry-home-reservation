@@ -31,6 +31,7 @@ const BookingForm = () => {
   const [bookings, setBookings] = useState<Array<{ start: Date; end: Date }>>([]);
   const { t, language } = useLanguage();
   const [isSelectingEndDate, setIsSelectingEndDate] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   
   // Calculate tomorrow's date for earliest booking
   const tomorrow = addDays(new Date(), 1);
@@ -198,16 +199,12 @@ const BookingForm = () => {
         // Option 1: Open a mailto link (for GitHub Pages)
         window.open(`mailto:tatryhomepl@gmail.com?subject=${subject}&body=${body}`);
         
-        // Show success message after mailto
-        toast.success(t('booking.success') as string, {
-          position: 'bottom-center',
-          duration: 3000,
-          className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
-          style: {
-            marginBottom: '1rem',
-            zIndex: 50
-          }
-        });
+        // Show confirmation message
+        setEmailSent(true);
+        // Set timer to hide the confirmation message after 10 seconds
+        setTimeout(() => {
+          setEmailSent(false);
+        }, 10000);
         reset();
         setCheckIn(undefined);
         setCheckOut(undefined);
@@ -241,15 +238,12 @@ const BookingForm = () => {
         throw new Error(`Failed to send email: ${response.status} ${errorText}`);
       }
 
-      toast.success(t('booking.success') as string, {
-        position: 'bottom-center',
-        duration: 3000,
-        className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
-        style: {
-          marginBottom: '1rem',
-          zIndex: 50
-        }
-      });
+      // Show confirmation message
+      setEmailSent(true);
+      // Set timer to hide the confirmation message after 10 seconds
+      setTimeout(() => {
+        setEmailSent(false);
+      }, 10000);
       reset();
       setCheckIn(undefined);
       setCheckOut(undefined);
@@ -521,6 +515,12 @@ const BookingForm = () => {
                   {t('booking.askForOffer') as string}
                 </Button>
               </>
+            )}
+
+            {emailSent && (
+              <div className="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                <p className="text-base">{t('booking.confirmationMessage') as string}</p>
+              </div>
             )}
           </form>
         </div>
