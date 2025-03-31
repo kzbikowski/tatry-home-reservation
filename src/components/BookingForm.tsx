@@ -31,6 +31,7 @@ const BookingForm = () => {
   const [checkOut, setCheckOut] = useState<Date>();
   const [bookings, setBookings] = useState<Array<{ start: Date; end: Date }>>([]);
   const { t } = useLanguage();
+  const [isSelectingEndDate, setIsSelectingEndDate] = useState(false);
   
   useEffect(() => {
     const loadBookings = async () => {
@@ -52,46 +53,102 @@ const BookingForm = () => {
     formState: { errors },
   } = useForm<BookingFormData>();
 
-  const handleCheckInSelect = (date: Date | undefined) => {
-    console.log('Check-in selected:', date ? format(date, 'yyyy-MM-dd') : 'undefined');
-    setCheckIn(date);
-    // Reset check-out if it's before the new check-in date
-    if (date && checkOut && isBefore(checkOut, date)) {
+  const handleDateSelect = (range: { from: Date | undefined; to: Date | undefined }) => {
+    if (!range) return;
+    
+    console.log('Start: Date range selected:', {
+      from: range.from ? format(range.from, 'yyyy-MM-dd') : 'undefined',
+      to: range.to ? format(range.to, 'yyyy-MM-dd') : 'undefined', 
+      checkIn: checkIn ? format(checkIn, 'yyyy-MM-dd') : 'undefined',
+      checkOut: checkOut ? format(checkOut, 'yyyy-MM-dd') : 'undefined'
+    });
+
+    // If we have a complete range selected, treat any click as a new start date
+    if (checkIn && checkOut) {
+      // Clear current range and start a new selection with the clicked date
+      const newStartDate = range.from !== checkIn ? range.from : range.to;
+      setCheckIn(newStartDate);
+     
+      setCheckOut(undefined);
+      return;
+    }
+
+    // If we only have start date selected
+    if (checkIn) {
+      if (range.to && isBefore(range.to, checkIn)) {
+        // If clicked date is before start date, clear everything
+        setCheckIn(undefined);
+        setCheckOut(undefined);
+        return;
+      }
+
+      // Check if the entire period is available
+      if (range.to && !isPeriodAvailable(checkIn, range.to, bookings)) {
+        toast.error(t('booking.error.dates_unavailable'), {
+          position: 'bottom-center',
+          duration: 3000,
+          className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
+          style: {
+            marginBottom: '1rem',
+            zIndex: 50
+          }
+        });
+        setCheckIn(undefined);
+        setCheckOut(undefined);
+        return;
+      }
+
+      // Set the end date
+      setCheckOut(range.to);
+      return;
+    }
+
+    // First click - setting start date
+    if (range.from) {
+      setCheckIn(range.from);
       setCheckOut(undefined);
     }
   };
 
-  const handleCheckOutSelect = (date: Date | undefined) => {
-    console.log('Check-out selected:', date ? format(date, 'yyyy-MM-dd') : 'undefined');
-    if (date && checkIn && isBefore(date, checkIn)) {
-      toast.error(t('booking.error.checkout_before_checkin'));
-      return;
-    }
-    setCheckOut(date);
-  };
-
   const isDateDisabled = (date: Date) => {
     const isDisabled = !isDateAvailable(date, bookings);
-    console.log('Date disabled check:', {
-      date: format(date, 'yyyy-MM-dd'),
-      isDisabled,
-      bookings: bookings.map(b => ({
-        start: format(b.start, 'yyyy-MM-dd'),
-        end: format(b.end, 'yyyy-MM-dd')
-      }))
-    });
+    // console.log('Date disabled check:', {
+    //   date: format(date, 'yyyy-MM-dd'),
+    //   isDisabled,
+    //   bookings: bookings.map(b => ({
+    //     start: format(b.start, 'yyyy-MM-dd'),
+    //     end: format(b.end, 'yyyy-MM-dd')
+    //   }))
+    // });
     return isDisabled;
   };
 
   const onSubmit = async (data: BookingFormData) => {
     if (!checkIn || !checkOut) {
-      toast.error(t('booking.error.dates'));
+      toast.error(t('booking.error.dates'), {
+        position: 'bottom-center',
+        duration: 3000,
+        className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
+        style: {
+          marginBottom: '1rem',
+          zIndex: 50
+        }
+      });
       return;
     }
 
-    // Check if the entire period is available
-    if (!isPeriodAvailable(checkIn, checkOut, bookings)) {
-      toast.error(t('booking.error.dates_unavailable'));
+    // Check if the selected dates are available
+    const isAvailable = isDateAvailable(checkIn, bookings) && isDateAvailable(checkOut, bookings);
+    if (!isAvailable) {
+      toast.error(t('booking.error.dates_unavailable'), {
+        position: 'bottom-center',
+        duration: 3000,
+        className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
+        style: {
+          marginBottom: '1rem',
+          zIndex: 50
+        }
+      });
       return;
     }
 
@@ -108,34 +165,50 @@ const BookingForm = () => {
           'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: 'Tatry Home <onboarding@resend.dev>',
-          to: ['tatryhomepl@gmail.com'],
-          subject: `New Booking Request - Tatry Home (${format(checkIn, 'dd.MM.yyyy')} - ${format(checkOut, 'dd.MM.yyyy')})`,
+          from: 'Tatry Home <booking@tatryhome.com>',
+          to: ['tatryhome@gmail.com'],
+          subject: t('booking.email.subject'),
           html: `
-            <h2>New Booking Request</h2>
-            <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone}</p>
-            <p><strong>Check-in:</strong> ${new Date(checkIn).toLocaleDateString()}</p>
-            <p><strong>Check-out:</strong> ${new Date(checkOut).toLocaleDateString()}</p>
-            <p><strong>Guests:</strong> ${data.guests}</p>
-            <p><strong>Message:</strong> ${data.message || 'No message provided'}</p>
+            <h2>${t('booking.email.newBooking')}</h2>
+            <p><strong>${t('booking.email.checkIn')}:</strong> ${format(checkIn, "PPP")}</p>
+            <p><strong>${t('booking.email.checkOut')}:</strong> ${format(checkOut, "PPP")}</p>
+            <p><strong>${t('booking.email.guests')}:</strong> ${data.guests}</p>
+            <p><strong>${t('booking.email.name')}:</strong> ${data.firstName} ${data.lastName}</p>
+            <p><strong>${t('booking.email.email')}:</strong> ${data.email}</p>
+            <p><strong>${t('booking.email.phone')}:</strong> ${data.phone}</p>
+            <p><strong>${t('booking.email.message')}:</strong></p>
+            <p>${data.message}</p>
           `,
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        throw new Error('Failed to send email');
       }
 
-      toast.success(t('booking.success'));
+      toast.success(t('booking.success'), {
+        position: 'bottom-center',
+        duration: 3000,
+        className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
+        style: {
+          marginBottom: '1rem',
+          zIndex: 50
+        }
+      });
       reset();
       setCheckIn(undefined);
       setCheckOut(undefined);
     } catch (error) {
       console.error('Error sending email:', error);
-      toast.error('Failed to send booking request. Please try again later.');
+      toast.error(t('booking.error.submit'), {
+        position: 'bottom-center',
+        duration: 3000,
+        className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
+        style: {
+          marginBottom: '1rem',
+          zIndex: 50
+        }
+      });
     }
   };
 
@@ -213,54 +286,32 @@ const BookingForm = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <Label>{t('booking.checkIn')}</Label>
+              <div className="md:col-span-2">
+                <Label>{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
                         "w-full justify-start text-left font-normal",
-                        !checkIn && "text-muted-foreground"
+                        !checkIn && !checkOut && "text-muted-foreground"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.pickDate')}</span>}
+                      {checkIn && checkOut ? (
+                        <span>
+                          {format(checkIn, "PPP")} - {format(checkOut, "PPP")}
+                        </span>
+                      ) : (
+                        <span>{t('booking.pickDate')}</span>
+                      )}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
                     <Calendar
-                      mode="single"
-                      selected={checkIn}
-                      onSelect={handleCheckInSelect}
-                      initialFocus
-                      disabled={isDateDisabled}
-                      className={cn("p-3 pointer-events-auto")}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              
-              <div>
-                <Label>{t('booking.checkOut')}</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !checkOut && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.pickDate')}</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={checkOut}
-                      onSelect={handleCheckOutSelect}
+                      mode="range"
+                      selected={{ from: checkIn, to: checkOut }}
+                      onSelect={handleDateSelect}
                       initialFocus
                       disabled={isDateDisabled}
                       className={cn("p-3 pointer-events-auto")}
