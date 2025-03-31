@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { format, isBefore, isAfter, isSameDay } from "date-fns";
+import { format, isBefore, isAfter, isSameDay, addDays } from "date-fns";
+import { enUS, pl, de } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -28,8 +29,19 @@ const BookingForm = () => {
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [bookings, setBookings] = useState<Array<{ start: Date; end: Date }>>([]);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isSelectingEndDate, setIsSelectingEndDate] = useState(false);
+  
+  // Calculate tomorrow's date for earliest booking
+  const tomorrow = addDays(new Date(), 1);
+  
+  const getLocale = () => {
+    switch(language) {
+      case 'pl': return pl;
+      case 'de': return de;
+      default: return enUS;
+    }
+  };
   
   useEffect(() => {
     const loadBookings = async () => {
@@ -109,15 +121,13 @@ const BookingForm = () => {
   };
 
   const isDateDisabled = (date: Date) => {
+    // First check if the date is before tomorrow (disallow past dates)
+    if (isBefore(date, tomorrow)) {
+      return true;
+    }
+    
+    // Then check availability from bookings
     const isDisabled = !isDateAvailable(date, bookings);
-    // console.log('Date disabled check:', {
-    //   date: format(date, 'yyyy-MM-dd'),
-    //   isDisabled,
-    //   bookings: bookings.map(b => ({
-    //     start: format(b.start, 'yyyy-MM-dd'),
-    //     end: format(b.end, 'yyyy-MM-dd')
-    //   }))
-    // });
     return isDisabled;
   };
 
@@ -210,7 +220,7 @@ const BookingForm = () => {
   return (
     <section id="booking" className="py-16 md:py-24 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
               {t('booking.title')}
@@ -219,78 +229,155 @@ const BookingForm = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="mb-8">
-              <Label>{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !checkIn && !checkOut && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {checkIn && checkOut ? (
-                      <span>
-                        {format(checkIn, "PPP")} - {format(checkOut, "PPP")}
-                      </span>
-                    ) : (
-                      <span>{t('booking.pickDate')}</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
+              <div className="flex items-center justify-between mb-3">
+                <Label className="text-lg font-medium">{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
+                {checkIn && checkOut && (
+                  <div className="text-tatryhome-700 font-medium">
+                    {format(checkIn, "PPP", { locale: getLocale() })} - {format(checkOut, "PPP", { locale: getLocale() })}
+                  </div>
+                )}
+              </div>
+              
+              <div className="border rounded-lg p-4 md:p-6 bg-white shadow-sm">
+                <style>
+                  {`
+                  /* Selection style fixes */
+                  .rdp-day_selected, 
+                  .rdp-day_selected:focus, 
+                  .rdp-day_selected:hover {
+                    background-color: #0284c7 !important;
+                    color: white !important;
+                  }
+                  
+                  .rdp-day_range_middle {
+                    background-color: #bae6fd !important;
+                    color: #0369a1 !important;
+                  }
+                  
+                  /* Ensure cell background colors work properly */
+                  .rdp-cell[aria-selected="true"],
+                  .rdp-cell:has([aria-selected="true"]) {
+                    background-color: transparent !important;
+                  }
+                  
+                  /* Availability styles - stronger selectors to increase specificity */
+                  button.rdp-day.available-day:not([aria-selected="true"]) {
+                    background-color: #dcfce7 !important;
+                    color: #16a34a !important;
+                    font-weight: bold !important;
+                  }
+                  
+                  button.rdp-day.unavailable-day:not([aria-selected="true"]) {
+                    background-color: #fee2e2 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold !important;
+                  }
+                  
+                  /* Custom selector for modifiers to ensure they work */
+                  .available-day:not([aria-selected="true"]) {
+                    background-color: #dcfce7 !important;
+                    color: #16a34a !important;
+                  }
+                  
+                  .unavailable-day:not([aria-selected="true"]) {
+                    background-color: #fee2e2 !important;
+                    color: #dc2626 !important;
+                  }
+                  `}
+                </style>
+                
+                <Calendar
+                  mode="range"
+                  selected={{ from: checkIn, to: checkOut }}
+                  onSelect={handleDateSelect}
+                  disabled={isDateDisabled}
+                  fromDate={tomorrow}
+                  locale={getLocale()}
+                  numberOfMonths={1}
+                  showOutsideDays
+                  fixedWeeks
+                  ISOWeek
+                  className="md:hidden w-full"
+                  classNames={{
+                    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                    month: "space-y-4",
+                    caption: "flex justify-center pt-1 relative items-center",
+                    caption_label: "text-sm font-medium",
+                    nav: "space-x-1 flex items-center",
+                    nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+                    nav_button_previous: "absolute left-1",
+                    nav_button_next: "absolute right-1",
+                    table: "w-full border-collapse space-y-1",
+                    head_row: "flex",
+                    head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                    row: "flex w-full mt-2",
+                    cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                    day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                    day_range_end: "day-range-end",
+                    day_selected: "bg-sky-600 text-white hover:bg-sky-600 hover:text-white focus:bg-sky-600 focus:text-white",
+                    day_today: "bg-accent text-accent-foreground",
+                    day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+                    day_disabled: "text-muted-foreground opacity-50 line-through",
+                    day_range_middle: "rdp-day_range_middle",
+                    day_hidden: "invisible",
+                  }}
+                  modifiers={{
+                    available: (date) => isDateAvailable(date, bookings),
+                    unavailable: (date) => !isDateAvailable(date, bookings),
+                  }}
+                  modifiersClassNames={{
+                    available: "available-day",
+                    unavailable: "unavailable-day",
+                  }}
+                />
+                
+                <div className="hidden md:flex justify-center w-full">
                   <Calendar
                     mode="range"
                     selected={{ from: checkIn, to: checkOut }}
                     onSelect={handleDateSelect}
-                    initialFocus
                     disabled={isDateDisabled}
-                    className={cn("p-3 pointer-events-auto")}
+                    fromDate={tomorrow}
+                    locale={getLocale()}
+                    className="w-full max-w-3xl"
                     numberOfMonths={2}
+                    showOutsideDays
+                    fixedWeeks
+                    ISOWeek
                     classNames={{
-                      months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                      months: "flex flex-row space-x-8 justify-center",
                       month: "space-y-4",
                       caption: "flex justify-center pt-1 relative items-center",
-                      caption_label: "text-base font-medium",
+                      caption_label: "text-sm font-medium",
                       nav: "space-x-1 flex items-center",
-                      nav_button: "h-8 w-8 bg-transparent p-0 opacity-50 hover:opacity-100",
+                      nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
                       nav_button_previous: "absolute left-1",
                       nav_button_next: "absolute right-1",
                       table: "w-full border-collapse space-y-1",
                       head_row: "flex",
-                      head_cell: "text-muted-foreground rounded-md w-10 font-normal text-sm",
+                      head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
                       row: "flex w-full mt-2",
-                      cell: "h-10 w-10 text-center text-sm p-0 relative",
-                      day: "h-10 w-10 p-0 font-normal",
+                      cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                      day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                      day_range_end: "day-range-end",
+                      day_selected: "bg-sky-600 text-white hover:bg-sky-600 hover:text-white focus:bg-sky-600 focus:text-white",
                       day_today: "bg-accent text-accent-foreground",
-                      day_outside: "day-outside text-muted-foreground opacity-50",
-                      day_disabled: "text-muted-foreground opacity-50",
-                      day_hidden: "invisible",
-                      day_selected: "rdp-day_selected",
-                      day_range_start: "rdp-day_range_start",
-                      day_range_end: "rdp-day_range_end",
+                      day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+                      day_disabled: "text-muted-foreground opacity-50 line-through",
                       day_range_middle: "rdp-day_range_middle",
+                      day_hidden: "invisible",
                     }}
                     modifiers={{
                       available: (date) => isDateAvailable(date, bookings),
                       unavailable: (date) => !isDateAvailable(date, bookings),
                     }}
-                    modifiersStyles={{
-                      available: {
-                        color: '#16a34a', // green-600
-                        fontWeight: 'bold',
-                        backgroundColor: '#dcfce7', // green-100
-                      },
-                      unavailable: {
-                        color: '#dc2626', // red-600
-                        fontWeight: 'bold',
-                        backgroundColor: '#fee2e2', // red-100
-                      },
+                    modifiersClassNames={{
+                      available: "available-day",
+                      unavailable: "unavailable-day",
                     }}
                   />
-                </PopoverContent>
-              </Popover>
+                </div>
+              </div>
 
               {checkIn && checkOut && isPeriodAvailable(checkIn, checkOut, bookings) && (
                 <div className="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
