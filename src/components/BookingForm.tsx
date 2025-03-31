@@ -161,11 +161,65 @@ const BookingForm = () => {
     }
 
     try {
-      // Use proxy in development, direct API in production
+      // Format dates in the user's local language
+      const formattedCheckIn = format(checkIn, "PPP", { locale: getLocale() });
+      const formattedCheckOut = format(checkOut, "PPP", { locale: getLocale() });
+
+      // Create email content
+      const emailHtml = `
+        <h2>${t('booking.email.newBooking')}</h2>
+        <p><strong>${t('booking.email.checkIn')}:</strong> ${formattedCheckIn}</p>
+        <p><strong>${t('booking.email.checkOut')}:</strong> ${formattedCheckOut}</p>
+        <p><strong>${t('booking.email.name')}:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>${t('booking.email.email')}:</strong> ${data.email}</p>
+        <p><strong>${t('booking.email.phone')}:</strong> ${data.phone}</p>
+      `;
+
+      // For GitHub Pages deployment, we'll use a direct API call to a third-party service
+      // that can handle the email sending without a backend
+      
+      // Create an email using mailto link as fallback for GitHub Pages
+      const subject = encodeURIComponent(t('booking.email.subject'));
+      const body = encodeURIComponent(
+        `${t('booking.email.newBooking')}\n\n` +
+        `${t('booking.email.checkIn')}: ${formattedCheckIn}\n` +
+        `${t('booking.email.checkOut')}: ${formattedCheckOut}\n` +
+        `${t('booking.email.name')}: ${data.firstName} ${data.lastName}\n` +
+        `${t('booking.email.email')}: ${data.email}\n` +
+        `${t('booking.email.phone')}: ${data.phone}`
+      );
+      
+      // If we're on GitHub Pages deployment (or any environment that doesn't support API endpoints)
+      const isGitHubPages = window.location.hostname.includes('github.io') || 
+                          import.meta.env.MODE === 'production';
+      
+      if (isGitHubPages) {
+        // Option 1: Open a mailto link (for GitHub Pages)
+        window.open(`mailto:tatryhomepl@gmail.com?subject=${subject}&body=${body}`);
+        
+        // Show success message after mailto
+        toast.success(t('booking.success'), {
+          position: 'bottom-center',
+          duration: 3000,
+          className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
+          style: {
+            marginBottom: '1rem',
+            zIndex: 50
+          }
+        });
+        reset();
+        setCheckIn(undefined);
+        setCheckOut(undefined);
+        return;
+      }
+      
+      // If not on GitHub Pages, continue with the API approach
       const apiUrl = import.meta.env.DEV 
         ? '/api/resend/emails'
         : 'https://api.resend.com/emails';
 
+      console.log('Submitting form to:', apiUrl);
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -173,22 +227,17 @@ const BookingForm = () => {
           'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: 'Tatry Home <booking@tatryhome.com>',
-          to: ['tatryhome@gmail.com'],
+          from: 'Tatry Home <onboarding@resend.dev>',
+          to: ['tatryhomepl@gmail.com'],
           subject: t('booking.email.subject'),
-          html: `
-            <h2>${t('booking.email.newBooking')}</h2>
-            <p><strong>${t('booking.email.checkIn')}:</strong> ${format(checkIn, "PPP")}</p>
-            <p><strong>${t('booking.email.checkOut')}:</strong> ${format(checkOut, "PPP")}</p>
-            <p><strong>${t('booking.email.name')}:</strong> ${data.firstName} ${data.lastName}</p>
-            <p><strong>${t('booking.email.email')}:</strong> ${data.email}</p>
-            <p><strong>${t('booking.email.phone')}:</strong> ${data.phone}</p>
-          `,
+          html: emailHtml,
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send email');
+        const errorText = await response.text();
+        console.error('Response error:', response.status, errorText);
+        throw new Error(`Failed to send email: ${response.status} ${errorText}`);
       }
 
       toast.success(t('booking.success'), {
@@ -205,6 +254,8 @@ const BookingForm = () => {
       setCheckOut(undefined);
     } catch (error) {
       console.error('Error sending email:', error);
+      
+      // Display a more user-friendly error message
       toast.error(t('booking.error.submit'), {
         position: 'bottom-center',
         duration: 3000,
@@ -213,6 +264,14 @@ const BookingForm = () => {
           marginBottom: '1rem',
           zIndex: 50
         }
+      });
+      
+      // Show a more detailed error for debugging in console
+      console.error('Detailed error information:', {
+        message: error.message,
+        hostname: window.location.hostname,
+        isProduction: import.meta.env.MODE === 'production',
+        apiKey: import.meta.env.VITE_RESEND_API_KEY ? 'Present (length: ' + import.meta.env.VITE_RESEND_API_KEY.length + ')' : 'Missing'
       });
     }
   };
@@ -230,7 +289,7 @@ const BookingForm = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="mb-8">
               <div className="flex items-center justify-between mb-3">
-                <Label className="text-lg font-medium">{t('booking.checkIn')} & {t('booking.checkOut')}</Label>
+                {/* <Label className="text-lg font-medium">{t('booking.checkIn')} & {t('booking.checkOut')}</Label> */}
                 {checkIn && checkOut && (
                   <div className="text-tatryhome-700 font-medium">
                     {format(checkIn, "PPP", { locale: getLocale() })} - {format(checkOut, "PPP", { locale: getLocale() })}
