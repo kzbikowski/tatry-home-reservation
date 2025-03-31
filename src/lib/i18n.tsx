@@ -91,6 +91,7 @@ const translations: Translations = {
     'booking.error.guestsMin': 'Minimum 1 gość',
     'booking.error.guestsMax': 'Maksymalnie 6 gości',
     'booking.error.dates': 'Proszę wybrać daty zameldowania i wymeldowania',
+    'booking.error.dates_unavailable': 'Wybrane daty nie są dostępne',
     'booking.success': 'Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.',
 
     // Contact
@@ -211,6 +212,7 @@ const translations: Translations = {
     'booking.error.guestsMin': 'Minimum 1 guest',
     'booking.error.guestsMax': 'Maximum 6 guests',
     'booking.error.dates': 'Please select check-in and check-out dates',
+    'booking.error.dates_unavailable': 'Selected dates are not available',
     'booking.success': 'Booking request sent successfully! We will contact you soon.',
 
     // Contact
@@ -331,6 +333,7 @@ const translations: Translations = {
     'booking.error.guestsMin': 'Mindestens 1 Gast',
     'booking.error.guestsMax': 'Maximal 6 Gäste',
     'booking.error.dates': 'Bitte wählen Sie Check-in und Check-out Daten',
+    'booking.error.dates_unavailable': 'Ausgewählte Daten sind nicht verfügbar',
     'booking.success': 'Buchungsanfrage erfolgreich gesendet! Wir werden uns bald bei Ihnen melden.',
 
     // Contact

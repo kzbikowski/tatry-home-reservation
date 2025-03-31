@@ -1,0 +1,24 @@
+{
+  "booking": {
+    "title": "Buchen Sie Ihren Aufenthalt",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "checkIn": "Check-in Datum",
+    "checkOut": "Check-out Datum",
+    "guests": "Anzahl der Gäste",
+    "message": "Nachricht (optional)",
+    "submit": "Buchungsanfrage absenden",
+    "success": "Buchungsanfrage erfolgreich gesendet!",
+    "error": {
+      "required": "Dieses Feld ist erforderlich",
+      "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "dates": "Bitte wählen Sie Check-in und Check-out Datum",
+      "dates_unavailable": "Die ausgewählten Daten sind nicht verfügbar",
+      "guests": "Bitte wählen Sie mindestens 1 Gast",
+      "checkout_before_checkin": "Check-out Datum kann nicht vor Check-in Datum liegen"
+    },
+    "selectDate": "Datum auswählen"
+  }
+} 

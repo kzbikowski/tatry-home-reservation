@@ -105,12 +105,12 @@ export function isDateAvailable(date: Date, bookings: Booking[]): boolean {
       end: booking.end 
     });
     
-    console.log('Checking date availability:', {
-      date: format(normalizedDate, 'yyyy-MM-dd'),
-      bookingStart: format(booking.start, 'yyyy-MM-dd'),
-      bookingEnd: format(booking.end, 'yyyy-MM-dd'),
-      isBooked
-    });
+    // console.log('Checking date availability:', {
+    //   date: format(normalizedDate, 'yyyy-MM-dd'),
+    //   bookingStart: format(booking.start, 'yyyy-MM-dd'),
+    //   bookingEnd: format(booking.end, 'yyyy-MM-dd'),
+    //   isBooked
+    // });
     
     return isBooked;
   });
@@ -120,15 +120,15 @@ export function isPeriodAvailable(start: Date, end: Date, bookings: Booking[]): 
   const normalizedStart = startOfDay(start);
   const normalizedEnd = endOfDay(end);
   
-  console.log('Checking period availability:');
-  console.log('Requested period:', {
-    start: format(normalizedStart, 'yyyy-MM-dd'),
-    end: format(normalizedEnd, 'yyyy-MM-dd')
-  });
-  console.log('Existing bookings:', bookings.map(b => ({
-    start: format(b.start, 'yyyy-MM-dd'),
-    end: format(b.end, 'yyyy-MM-dd')
-  })));
+  // console.log('Checking period availability:');
+  // console.log('Requested period:', {
+  //   start: format(normalizedStart, 'yyyy-MM-dd'),
+  //   end: format(normalizedEnd, 'yyyy-MM-dd')
+  // });
+  // console.log('Existing bookings:', bookings.map(b => ({
+  //   start: format(b.start, 'yyyy-MM-dd'),
+  //   end: format(b.end, 'yyyy-MM-dd')
+  // })));
 
   // Check if any part of the period overlaps with any booking
   const hasOverlap = bookings.some(booking => {
@@ -137,13 +137,13 @@ export function isPeriodAvailable(start: Date, end: Date, bookings: Booking[]): 
     const endOverlaps = isWithinInterval(normalizedEnd, { start: booking.start, end: booking.end });
     const containsBooking = isBefore(normalizedStart, booking.start) && isAfter(normalizedEnd, booking.end);
 
-    console.log('Checking against booking:', {
-      bookedStart: format(booking.start, 'yyyy-MM-dd'),
-      bookedEnd: format(booking.end, 'yyyy-MM-dd'),
-      startOverlaps,
-      endOverlaps,
-      containsBooking
-    });
+    // console.log('Checking against booking:', {
+    //   bookedStart: format(booking.start, 'yyyy-MM-dd'),
+    //   bookedEnd: format(booking.end, 'yyyy-MM-dd'),
+    //   startOverlaps,
+    //   endOverlaps,
+    //   containsBooking
+    // });
 
     return startOverlaps || endOverlaps || containsBooking;
   });
