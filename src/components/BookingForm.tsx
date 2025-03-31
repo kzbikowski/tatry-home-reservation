@@ -225,7 +225,7 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.selectDate')}</span>}
+                      {checkIn ? format(checkIn, "PPP") : <span>{t('booking.pickDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
@@ -253,7 +253,7 @@ const BookingForm = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.selectDate')}</span>}
+                      {checkOut ? format(checkOut, "PPP") : <span>{t('booking.pickDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">

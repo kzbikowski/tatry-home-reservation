@@ -11,6 +11,7 @@ import { Globe } from 'lucide-react';
 const languages = [
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
 ];
 
 const LanguageSwitcher = () => {
@@ -30,7 +31,7 @@ const LanguageSwitcher = () => {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code as 'en' | 'pl')}
+            onClick={() => setLanguage(lang.code as 'en' | 'pl' | 'de')}
             className="flex items-center gap-2"
           >
             <span>{lang.flag}</span>
