@@ -95,7 +95,7 @@ const BookingForm = () => {
 
       // Check if the entire period is available
       if (range.to && !isPeriodAvailable(checkIn, range.to, bookings)) {
-        toast.error(t('booking.error.dates_unavailable'), {
+        toast.error(t('booking.error.dates_unavailable') as string, {
           position: 'bottom-center',
           duration: 3000,
           className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -134,7 +134,7 @@ const BookingForm = () => {
 
   const onSubmit = async (data: BookingFormData) => {
     if (!checkIn || !checkOut) {
-      toast.error(t('booking.error.dates'), {
+      toast.error(t('booking.error.dates') as string, {
         position: 'bottom-center',
         duration: 3000,
         className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -149,7 +149,7 @@ const BookingForm = () => {
     // Check if the selected dates are available
     const isAvailable = isDateAvailable(checkIn, bookings) && isDateAvailable(checkOut, bookings);
     if (!isAvailable) {
-      toast.error(t('booking.error.dates_unavailable'), {
+      toast.error(t('booking.error.dates_unavailable') as string, {
         position: 'bottom-center',
         duration: 3000,
         className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -168,26 +168,26 @@ const BookingForm = () => {
 
       // Create email content
       const emailHtml = `
-        <h2>${t('booking.email.newBooking')}</h2>
-        <p><strong>${t('booking.email.checkIn')}:</strong> ${formattedCheckIn}</p>
-        <p><strong>${t('booking.email.checkOut')}:</strong> ${formattedCheckOut}</p>
-        <p><strong>${t('booking.email.name')}:</strong> ${data.firstName} ${data.lastName}</p>
-        <p><strong>${t('booking.email.email')}:</strong> ${data.email}</p>
-        <p><strong>${t('booking.email.phone')}:</strong> ${data.phone}</p>
+        <h2>${t('booking.emailNewBooking') as string}</h2>
+        <p><strong>${t('booking.emailCheckIn') as string}:</strong> ${formattedCheckIn}</p>
+        <p><strong>${t('booking.emailCheckOut') as string}:</strong> ${formattedCheckOut}</p>
+        <p><strong>${t('booking.emailName') as string}:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>${t('booking.emailAddress') as string}:</strong> ${data.email}</p>
+        <p><strong>${t('booking.emailPhone') as string}:</strong> ${data.phone}</p>
       `;
 
       // For GitHub Pages deployment, we'll use a direct API call to a third-party service
       // that can handle the email sending without a backend
       
       // Create an email using mailto link as fallback for GitHub Pages
-      const subject = encodeURIComponent(t('booking.email.subject'));
+      const subject = encodeURIComponent(t('booking.emailSubject') as string);
       const body = encodeURIComponent(
-        `${t('booking.email.newBooking')}\n\n` +
-        `${t('booking.email.checkIn')}: ${formattedCheckIn}\n` +
-        `${t('booking.email.checkOut')}: ${formattedCheckOut}\n` +
-        `${t('booking.email.name')}: ${data.firstName} ${data.lastName}\n` +
-        `${t('booking.email.email')}: ${data.email}\n` +
-        `${t('booking.email.phone')}: ${data.phone}`
+        `${t('booking.emailNewBooking') as string}\n\n` +
+        `${t('booking.emailCheckIn') as string}: ${formattedCheckIn}\n` +
+        `${t('booking.emailCheckOut') as string}: ${formattedCheckOut}\n` +
+        `${t('booking.emailName') as string}: ${data.firstName} ${data.lastName}\n` +
+        `${t('booking.emailAddress') as string}: ${data.email}\n` +
+        `${t('booking.emailPhone') as string}: ${data.phone}`
       );
       
       // If we're on GitHub Pages deployment (or any environment that doesn't support API endpoints)
@@ -199,7 +199,7 @@ const BookingForm = () => {
         window.open(`mailto:tatryhomepl@gmail.com?subject=${subject}&body=${body}`);
         
         // Show success message after mailto
-        toast.success(t('booking.success'), {
+        toast.success(t('booking.success') as string, {
           position: 'bottom-center',
           duration: 3000,
           className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -230,7 +230,7 @@ const BookingForm = () => {
         body: JSON.stringify({
           from: 'Tatry Home <onboarding@resend.dev>',
           to: ['tatryhomepl@gmail.com'],
-          subject: t('booking.email.subject'),
+          subject: t('booking.emailSubject') as string,
           html: emailHtml,
         }),
       });
@@ -241,7 +241,7 @@ const BookingForm = () => {
         throw new Error(`Failed to send email: ${response.status} ${errorText}`);
       }
 
-      toast.success(t('booking.success'), {
+      toast.success(t('booking.success') as string, {
         position: 'bottom-center',
         duration: 3000,
         className: 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -257,7 +257,7 @@ const BookingForm = () => {
       console.error('Error sending email:', error);
       
       // Display a more user-friendly error message
-      toast.error(t('booking.error.submit'), {
+      toast.error(t('booking.error.submit') as string, {
         position: 'bottom-center',
         duration: 3000,
         className: 'bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg text-base',
@@ -283,14 +283,14 @@ const BookingForm = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-mountain-800 mb-4">
-              {t('booking.title')}
+              {t('booking.title') as string}
             </h2>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="mb-8">
               <div className="flex items-center justify-between mb-3">
-                {/* <Label className="text-lg font-medium">{t('booking.checkIn')} & {t('booking.checkOut')}</Label> */}
+                {/* <Label className="text-lg font-medium">{t('booking.checkIn') as string} & {t('booking.checkOut') as string}</Label> */}
                 {checkIn && checkOut && (
                   <div className="text-tatryhome-700 font-medium">
                     {format(checkIn, "PPP", { locale: getLocale() })} - {format(checkOut, "PPP", { locale: getLocale() })}
@@ -397,6 +397,7 @@ const BookingForm = () => {
                     available: "available-day",
                     unavailable: "unavailable-day",
                   }}
+                  captionLayout="buttons"
                 />
                 
                 <div className="hidden md:flex justify-center w-full">
@@ -412,6 +413,7 @@ const BookingForm = () => {
                     showOutsideDays
                     fixedWeeks
                     ISOWeek
+                    captionLayout="buttons"
                     classNames={{
                       months: "flex flex-row space-x-8 justify-center",
                       month: "space-y-4",
@@ -449,7 +451,7 @@ const BookingForm = () => {
 
               {checkIn && checkOut && isPeriodAvailable(checkIn, checkOut, bookings) && (
                 <div className="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-                  <p className="text-base">{t('booking.available_message')}</p>
+                  <p className="text-base">{t('booking.available_message') as string}</p>
                 </div>
               )}
             </div>
@@ -458,10 +460,10 @@ const BookingForm = () => {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="firstName">{t('booking.firstName')}</Label>
+                    <Label htmlFor="firstName">{t('booking.firstName') as string}</Label>
                     <Input
                       id="firstName"
-                      {...register("firstName", { required: t('booking.error.firstName') })}
+                      {...register("firstName", { required: t('booking.error.firstName') as string })}
                       className={cn(errors.firstName && "border-red-500")}
                     />
                     {errors.firstName && (
@@ -470,10 +472,10 @@ const BookingForm = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="lastName">{t('booking.lastName')}</Label>
+                    <Label htmlFor="lastName">{t('booking.lastName') as string}</Label>
                     <Input
                       id="lastName"
-                      {...register("lastName", { required: t('booking.error.lastName') })}
+                      {...register("lastName", { required: t('booking.error.lastName') as string })}
                       className={cn(errors.lastName && "border-red-500")}
                     />
                     {errors.lastName && (
@@ -484,15 +486,15 @@ const BookingForm = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="email">{t('booking.email')}</Label>
+                    <Label htmlFor="email">{t('booking.email') as string}</Label>
                     <Input
                       id="email"
                       type="email"
                       {...register("email", {
-                        required: t('booking.error.email'),
+                        required: t('booking.error.email') as string,
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: t('booking.error.emailInvalid'),
+                          message: t('booking.error.emailInvalid') as string,
                         },
                       })}
                       className={cn(errors.email && "border-red-500")}
@@ -503,10 +505,10 @@ const BookingForm = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="phone">{t('booking.phone')}</Label>
+                    <Label htmlFor="phone">{t('booking.phone') as string}</Label>
                     <Input
                       id="phone"
-                      {...register("phone", { required: t('booking.error.phone') })}
+                      {...register("phone", { required: t('booking.error.phone') as string })}
                       className={cn(errors.phone && "border-red-500")}
                     />
                     {errors.phone && (
@@ -516,7 +518,7 @@ const BookingForm = () => {
                 </div>
 
                 <Button type="submit" className="w-full bg-tatryhome-700 hover:bg-tatryhome-800 text-lg py-6">
-                  {t('booking.askForOffer')}
+                  {t('booking.askForOffer') as string}
                 </Button>
               </>
             )}
