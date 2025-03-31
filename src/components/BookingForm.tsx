@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { format, isBefore, isAfter, isSameDay, addDays } from "date-fns";
+import { format, isBefore, isAfter, isSameDay, addDays, isEqual } from "date-fns";
 import { enUS, pl, de } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -75,6 +75,7 @@ const BookingForm = () => {
 
     // If we have a complete range selected, treat any click as a new start date
     if (checkIn && checkOut) {
+      
       // Clear current range and start a new selection with the clicked date
       const newStartDate = range.from !== checkIn ? range.from : range.to;
       setCheckIn(newStartDate);
@@ -85,7 +86,7 @@ const BookingForm = () => {
 
     // If we only have start date selected
     if (checkIn) {
-      if (range.to && isBefore(range.to, checkIn)) {
+      if (range.to && (isBefore(range.to, checkIn) || isEqual(range.to, checkIn))) {
         // If clicked date is before start date, clear everything
         setCheckIn(undefined);
         setCheckOut(undefined);
@@ -304,13 +305,21 @@ const BookingForm = () => {
                   .rdp-day_selected, 
                   .rdp-day_selected:focus, 
                   .rdp-day_selected:hover {
-                    background-color: #0284c7 !important;
-                    color: white !important;
+                    background-color: #bae6fd !important; /* sky-200 light blue */
+                    color: #0369a1 !important; /* sky-700 dark blue text */
+                    font-weight: bold !important;
                   }
                   
                   .rdp-day_range_middle {
-                    background-color: #bae6fd !important;
-                    color: #0369a1 !important;
+                    background-color: #bae6fd !important; /* sky-200 light blue */
+                    color: #0369a1 !important; /* sky-700 dark blue text */
+                    font-weight: bold !important;
+                  }
+                  
+                  .rdp-day_range_start, .rdp-day_range_end {
+                    background-color: #bae6fd !important; /* sky-200 light blue */
+                    color: #0369a1 !important; /* sky-700 dark blue text */
+                    font-weight: bold !important;
                   }
                   
                   /* Ensure cell background colors work properly */
