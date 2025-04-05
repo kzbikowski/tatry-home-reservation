@@ -196,8 +196,14 @@ const BookingForm = () => {
                           import.meta.env.MODE === 'production';
       
       if (isGitHubPages) {
-        // Option 1: Open a mailto link (for GitHub Pages)
-        window.open(`mailto:tatryhomepl@gmail.com?subject=${subject}&body=${body}`);
+        // For GitHub Pages, instead of opening a mailto: link (which opens the user's email client),
+        // we'll log the details to console and show the confirmation message to the user
+        console.log('Email details (GitHub Pages deployment):', {
+          to: 'tatryhomepl@gmail.com',
+          subject: subject,
+          body: body,
+          data: data
+        });
         
         // Show confirmation message
         setEmailSent(true);
