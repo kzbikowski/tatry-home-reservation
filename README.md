@@ -67,3 +67,28 @@ Simply open [Lovable](https://lovable.dev/projects/2e1177fa-f500-4240-b5c0-f4653
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+## Local Development with API Functions
+
+To run the project locally with working API functions:
+
+1. Install the required dependencies for the API server:
+   ```
+   npm install express cors dotenv
+   ```
+
+2. Run the frontend and API server in separate terminals:
+   
+   **Terminal 1** - Frontend development server:
+   ```
+   npm run dev
+   ```
+   
+   **Terminal 2** - API development server:
+   ```
+   npm run api:dev
+   ```
+
+The frontend will run on port 3000 (or another port if 3000 is busy) and the API server will run on port 3001.
+
+Make sure your `.env` file contains all required environment variables, including `RESEND_API_KEY`.

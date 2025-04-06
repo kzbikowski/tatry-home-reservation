@@ -177,49 +177,29 @@ const BookingForm = () => {
         <p><strong>${t('booking.emailPhone') as string}:</strong> ${data.phone}</p>
       `;
 
-      // If we're on GitHub Pages deployment (or any environment that doesn't support API endpoints)
-      // const isGitHubPages = window.location.hostname.includes('github.io') || 
-      //                     import.meta.env.MODE === 'production';
+      // --- Email Sending Logic ---
+      console.log('Sending email form data:', {
+        subject: t('booking.emailSubject') as string,
+        name: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        phone: data.phone,
+        startDate: format(checkIn, "yyyy-MM-dd"),
+        endDate: format(checkOut, "yyyy-MM-dd")
+      });
       
-      // if (isGitHubPages) { // Remove or comment out this GitHub Pages specific logic
-      //   // For GitHub Pages, instead of opening a mailto: link (which opens the user's email client),
-      //   // we'll log the details to console and show the confirmation message to the user
-      //   console.log('Email details (GitHub Pages deployment):', {
-      //     to: 'tatryhomepl@gmail.com',
-      //     subject: subject,
-      //     body: body,
-      //     data: data
-      //   });
-        
-      //   // Show confirmation message
-      //   setEmailSent(true);
-      //   // Set timer to hide the confirmation message after 10 seconds
-      //   setTimeout(() => {
-      //     setEmailSent(false);
-      //   }, 10000);
-      //   reset();
-      //   setCheckIn(undefined);
-      //   setCheckOut(undefined);
-      //   return;
-      // }
+      // Always use the API endpoint, which works in both dev and production
+      const apiUrl = '/api/send-email';
       
-      // --- Vercel Serverless Function Approach --- 
-      // Always use the serverless function endpoint now
-      const apiUrl = '/api/send-email'; // Our Vercel function endpoint
-
-      console.log('Submitting form to Vercel function:', apiUrl);
+      console.log('Submitting form to API:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // No Authorization header needed here, the function handles the key
         },
         body: JSON.stringify({
-          // Send the necessary data to our serverless function
           subject: t('booking.emailSubject') as string,
           emailHtml: emailHtml,
-          // Add all form fields to match our TypeScript interface
           name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           phone: data.phone,
