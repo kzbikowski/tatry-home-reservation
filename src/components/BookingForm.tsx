@@ -261,7 +261,6 @@ const BookingForm = () => {
         message: error.message,
         hostname: window.location.hostname,
         isProduction: import.meta.env.MODE === 'production',
-        apiKey: import.meta.env.VITE_RESEND_API_KEY ? 'Present (length: ' + import.meta.env.VITE_RESEND_API_KEY.length + ')' : 'Missing'
       });
     }
   };

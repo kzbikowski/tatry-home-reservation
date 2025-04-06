@@ -4,23 +4,31 @@ import { Resend } from 'resend';
 
 // IMPORTANT: Use a non-VITE_ prefixed environment variable for the backend
 const apiKey = process.env.RESEND_API_KEY;
+const recipientEmail = process.env.RECIPIENT_EMAIL || 'tatryhomepl@gmail.com'; // Fallback
 
-if (!apiKey) {
-  // Log an error, but try to send a generic response to the client
-  console.error("FATAL: RESEND_API_KEY environment variable is not set on the server.");
-  // In a real scenario, you might want more robust error reporting here
-  // For now, send a 500 error back to the client.
-  return (response: VercelResponse) => response.status(500).json({ error: 'Server configuration error.' });
+// Initialize Resend outside the handler if the key exists, 
+// but check inside the handler before using it.
+let resend: Resend | null = null;
+if (apiKey) {
+  resend = new Resend(apiKey);
+} else {
+  // Log this critical error during initialization if the key is missing
+  console.error("FATAL: RESEND_API_KEY environment variable is not set on the server. Email sending will fail.");
 }
-
-const resend = new Resend(apiKey);
-// Use an environment variable for the recipient, with a fallback
-const recipientEmail = process.env.RECIPIENT_EMAIL || 'tatryhomepl@gmail.com';
 
 export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
+  // === Check for API Key INSIDE the handler ===
+  if (!resend || !apiKey) {
+    // Log the error again in case the instance wasn't created
+    console.error("API Key missing or Resend client not initialized. Cannot send email.");
+    // Send a 500 error back to the client.
+    return response.status(500).json({ error: 'Server configuration error. Email service not available.' });
+  }
+  // ============================================
+
   // Set CORS headers to allow requests from your frontend domain(s)
   // If you are only using the vercel.app domain or tatryhome.pl *after pointing it to Vercel*,
   // you might only need the specific domain. '*' is less secure but okay for simple cases.
