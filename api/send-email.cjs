@@ -1,14 +1,14 @@
 // api/send-email.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Resend } from 'resend';
+
+// Use CommonJS require syntax
+const vercel = require('@vercel/node');
+const { Resend } = require('resend');
 
 // IMPORTANT: Use a non-VITE_ prefixed environment variable for the backend
 const apiKey = process.env.RESEND_API_KEY;
 const recipientEmail = process.env.RECIPIENT_EMAIL || 'tatryhomepl@gmail.com'; // Fallback
 
-// Initialize Resend outside the handler if the key exists, 
-// but check inside the handler before using it.
-let resend: Resend | null = null;
+let resend: any | null = null; // Use 'any' for simplicity with require
 if (apiKey) {
   resend = new Resend(apiKey);
 } else {
@@ -16,11 +16,8 @@ if (apiKey) {
   console.error("FATAL: RESEND_API_KEY environment variable is not set on the server. Email sending will fail.");
 }
 
-// Use export default for the handler (ES Module syntax)
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse,
-) {
+// Use module.exports for the handler
+module.exports = async (request: typeof vercel.VercelRequest, response: typeof vercel.VercelResponse) => {
   // === Check for API Key INSIDE the handler ===
   if (!resend || !apiKey) {
     // Log the error again in case the instance wasn't created
@@ -88,4 +85,4 @@ export default async function handler(
        response.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
   }
-}
+};
