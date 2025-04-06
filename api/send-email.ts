@@ -1,22 +1,9 @@
+// @ts-ignore
+// This needs to remain a true ES module 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Resend } from 'resend';
 
-// Define interface for expected request body
-interface EmailRequestBody {
-  subject?: string;
-  emailHtml?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-  startDate?: string;
-  endDate?: string;
-  adults?: number;
-  children?: number;
-}
-
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Explicitly use dynamic import to avoid module system issues
+let Resend: any;
 
 export default async function handler(
   req: VercelRequest, 
@@ -40,6 +27,15 @@ export default async function handler(
   }
   
   try {
+    // Initialize Resend dynamically to work around module system issues
+    if (!Resend) {
+      const module = await import('resend');
+      Resend = module.Resend;
+    }
+    
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    // Use TypeScript interfaces but keep the runtime code simple
     const { 
       subject, 
       emailHtml, 
@@ -51,7 +47,7 @@ export default async function handler(
       endDate, 
       adults, 
       children 
-    } = req.body as EmailRequestBody;
+    } = req.body;
     
     // Use provided emailHtml or build a default one from fields
     const htmlContent = emailHtml || `
