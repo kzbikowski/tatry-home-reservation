@@ -223,13 +223,24 @@ const BookingForm = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // Try to get JSON error details
+        // Try to get text first, as it might not be JSON
+        const errorText = await response.text(); 
+        console.error('Raw error response text from /api/send-email:', errorText);
+        let errorData = { error: `Failed to send email: ${response.status}` };
+        try {
+          // Try parsing as JSON, but don't fail if it's not JSON
+          errorData = JSON.parse(errorText); 
+        } catch (parseError) {
+          console.warn('Response was not valid JSON.');
+          // Use the raw text or a generic message if parsing fails
+          errorData.error = errorText.substring(0, 100) || errorData.error; // Use first 100 chars of text or default
+        }
         console.error('Response error from /api/send-email:', response.status, errorData);
-        // Use a generic error message, or potentially `errorData.error` if available
-        const errorMessage = errorData?.error || `Failed to send email: ${response.status}`;
+        const errorMessage = errorData?.error || `Failed to send email: ${response.status}`; 
         throw new Error(errorMessage);
       }
       
+      // If response IS ok, parse the JSON result
       const result = await response.json();
       console.log('Success response from /api/send-email:', result);
 
