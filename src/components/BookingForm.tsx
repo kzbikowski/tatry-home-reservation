@@ -177,72 +177,61 @@ const BookingForm = () => {
         <p><strong>${t('booking.emailPhone') as string}:</strong> ${data.phone}</p>
       `;
 
-      // For GitHub Pages deployment, we'll use a direct API call to a third-party service
-      // that can handle the email sending without a backend
-      
-      // Create an email using mailto link as fallback for GitHub Pages
-      const subject = encodeURIComponent(t('booking.emailSubject') as string);
-      const body = encodeURIComponent(
-        `${t('booking.emailNewBooking') as string}\n\n` +
-        `${t('booking.emailCheckIn') as string}: ${formattedCheckIn}\n` +
-        `${t('booking.emailCheckOut') as string}: ${formattedCheckOut}\n` +
-        `${t('booking.emailName') as string}: ${data.firstName} ${data.lastName}\n` +
-        `${t('booking.emailAddress') as string}: ${data.email}\n` +
-        `${t('booking.emailPhone') as string}: ${data.phone}`
-      );
-      
       // If we're on GitHub Pages deployment (or any environment that doesn't support API endpoints)
-      const isGitHubPages = window.location.hostname.includes('github.io') || 
-                          import.meta.env.MODE === 'production';
+      // const isGitHubPages = window.location.hostname.includes('github.io') || 
+      //                     import.meta.env.MODE === 'production';
       
-      if (isGitHubPages) {
-        // For GitHub Pages, instead of opening a mailto: link (which opens the user's email client),
-        // we'll log the details to console and show the confirmation message to the user
-        console.log('Email details (GitHub Pages deployment):', {
-          to: 'tatryhomepl@gmail.com',
-          subject: subject,
-          body: body,
-          data: data
-        });
+      // if (isGitHubPages) { // Remove or comment out this GitHub Pages specific logic
+      //   // For GitHub Pages, instead of opening a mailto: link (which opens the user's email client),
+      //   // we'll log the details to console and show the confirmation message to the user
+      //   console.log('Email details (GitHub Pages deployment):', {
+      //     to: 'tatryhomepl@gmail.com',
+      //     subject: subject,
+      //     body: body,
+      //     data: data
+      //   });
         
-        // Show confirmation message
-        setEmailSent(true);
-        // Set timer to hide the confirmation message after 10 seconds
-        setTimeout(() => {
-          setEmailSent(false);
-        }, 10000);
-        reset();
-        setCheckIn(undefined);
-        setCheckOut(undefined);
-        return;
-      }
+      //   // Show confirmation message
+      //   setEmailSent(true);
+      //   // Set timer to hide the confirmation message after 10 seconds
+      //   setTimeout(() => {
+      //     setEmailSent(false);
+      //   }, 10000);
+      //   reset();
+      //   setCheckIn(undefined);
+      //   setCheckOut(undefined);
+      //   return;
+      // }
       
-      // If not on GitHub Pages, continue with the API approach
-      const apiUrl = import.meta.env.DEV 
-        ? '/api/resend/emails'
-        : 'https://api.resend.com/emails';
+      // --- Vercel Serverless Function Approach --- 
+      // Always use the serverless function endpoint now
+      const apiUrl = '/api/send-email'; // Our Vercel function endpoint
 
-      console.log('Submitting form to:', apiUrl);
+      console.log('Submitting form to Vercel function:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
+          // No Authorization header needed here, the function handles the key
         },
         body: JSON.stringify({
-          from: 'Tatry Home <onboarding@resend.dev>',
-          to: ['tatryhomepl@gmail.com'],
+          // Send the necessary data to our serverless function
           subject: t('booking.emailSubject') as string,
-          html: emailHtml,
+          emailHtml: emailHtml,
         }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', response.status, errorText);
-        throw new Error(`Failed to send email: ${response.status} ${errorText}`);
+        const errorData = await response.json(); // Try to get JSON error details
+        console.error('Response error from /api/send-email:', response.status, errorData);
+        // Use a generic error message, or potentially `errorData.error` if available
+        const errorMessage = errorData?.error || `Failed to send email: ${response.status}`;
+        throw new Error(errorMessage);
       }
+      
+      const result = await response.json();
+      console.log('Success response from /api/send-email:', result);
 
       // Show confirmation message
       setEmailSent(true);
