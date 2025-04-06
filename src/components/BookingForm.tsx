@@ -219,6 +219,12 @@ const BookingForm = () => {
           // Send the necessary data to our serverless function
           subject: t('booking.emailSubject') as string,
           emailHtml: emailHtml,
+          // Add all form fields to match our TypeScript interface
+          name: `${data.firstName} ${data.lastName}`,
+          email: data.email,
+          phone: data.phone,
+          startDate: format(checkIn, "yyyy-MM-dd"),
+          endDate: format(checkOut, "yyyy-MM-dd")
         }),
       });
 

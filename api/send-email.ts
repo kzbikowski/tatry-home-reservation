@@ -1,6 +1,27 @@
-// api/send-email.js - ES Module version for Vercel
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { Resend } from 'resend';
 
-export default async function handler(req, res) {
+// Define interface for expected request body
+interface EmailRequestBody {
+  subject?: string;
+  emailHtml?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  startDate?: string;
+  endDate?: string;
+  adults?: number;
+  children?: number;
+}
+
+// Initialize Resend client
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export default async function handler(
+  req: VercelRequest, 
+  res: VercelResponse
+) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -19,12 +40,18 @@ export default async function handler(req, res) {
   }
   
   try {
-    // Import Resend dynamically to avoid module system issues
-    const { Resend } = await import('resend');
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    
-    // Extract either our custom emailHtml or build from standard fields
-    const { subject, emailHtml, name, email, phone, message, startDate, endDate, adults, children } = req.body;
+    const { 
+      subject, 
+      emailHtml, 
+      name, 
+      email, 
+      phone, 
+      message, 
+      startDate, 
+      endDate, 
+      adults, 
+      children 
+    } = req.body as EmailRequestBody;
     
     // Use provided emailHtml or build a default one from fields
     const htmlContent = emailHtml || `
@@ -50,6 +77,7 @@ export default async function handler(req, res) {
     return res.status(200).json(data);
   } catch (error) {
     console.error('Error sending email:', error);
-    return res.status(500).json({ error: `Failed to send email: ${error.message}` });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: `Failed to send email: ${errorMessage}` });
   }
 } 
