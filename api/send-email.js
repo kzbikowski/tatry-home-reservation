@@ -1,4 +1,5 @@
-// Pure JavaScript version that works in both ES Module and CommonJS environments
+// Pure JavaScript version that works in ES Module environment
+// @ts-check
 let resend;
 
 export default async function handler(req, res) {
