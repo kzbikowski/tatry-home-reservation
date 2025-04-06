@@ -1,9 +1,20 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Use dynamic import for Resend to work in any module system
+let resend: any;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Initialize Resend inside the handler
+  if (!resend) {
+    try {
+      const { Resend } = await import('resend');
+      resend = new Resend(process.env.RESEND_API_KEY);
+    } catch (error) {
+      console.error("Failed to initialize Resend:", error);
+      return res.status(500).json({ error: 'Failed to initialize email service' });
+    }
+  }
+
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
