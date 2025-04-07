@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Calendar, Image, MessageSquare } from 'lucide-react';
+import { Menu, X, Home, Calendar, Image, MessageSquare, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '@/lib/i18n';
@@ -68,6 +68,10 @@ const Navbar = () => {
             <a href="#guest-stories" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.guestStories')}</a>
             <a href="#booking" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.bookNow')}</a>
             <a href="#contact" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.contact')}</a>
+            <a href="tel:+48696065617" className="flex items-center text-tatryhome-700 hover:text-tatryhome-800 font-medium transition-colors">
+              <Phone className="h-4 w-4 mr-2" />
+              {t('contact.phoneNumber')}
+            </a>
             <LanguageSwitcher />
             <Button 
               variant="default" 
@@ -81,6 +85,9 @@ const Navbar = () => {
           
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
+            <a href="tel:+48696065617" className="flex items-center text-tatryhome-700 hover:text-tatryhome-800">
+              <Phone className="h-5 w-5" />
+            </a>
             <LanguageSwitcher />
             <Button variant="ghost" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -99,6 +106,10 @@ const Navbar = () => {
             <a href="#guest-stories" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.guestStories')}</a>
             <a href="#booking" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.bookNow')}</a>
             <a href="#contact" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.contact')}</a>
+            <a href="tel:+48696065617" className="flex items-center text-tatryhome-700 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>
+              <Phone className="h-4 w-4 mr-2" />
+              {t('contact.phoneNumber')}
+            </a>
             <Button 
               className="bg-tatryhome-700 hover:bg-tatryhome-800 w-full"
               onClick={() => {
