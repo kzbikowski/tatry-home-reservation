@@ -7,10 +7,9 @@
   },
   "about": {
     "title": "Twoja Idealna Górska Oaza",
-    "description1": "Tatry Home oferuje wyjątkowy pobyt w sercu pięknych Tatr. Nasz nowoczesny apartament zapewnia cały komfort i udogodnienia potrzebne na niezapomniane wakacje w górach.",
-    "description2": "Niezależnie czy planujesz romantyczny wyjazd, wakacje z rodziną czy przygodę ze znajomymi, nasz apartament jest idealną bazą do odkrywania zapierających dech krajobrazów, szlaków turystycznych i atrakcji kulturalnych regionu.",
+    "description1": "Apartament Tatry Home położony jest na spokojnym osiedlu domków góralskich w Kościelisku. Znajduje się 1.5 km od Doliny Chochołowskiej oraz 2 km od Doliny Kościeliskiej. Dojazd do popularnych wyciągów jak np. Szymoszkowa zajmuje 5 min jazdy samochodem. Przy głównej bramie znajduje się przystanek autobusowy. Dla młodszych gości udostępniony jest plac zabaw.",
+    "description2": "Z balkonu apartamentu można w pogodne dni cieszyć się piękną panoramą Tatr. Apartament ma 72m2. Na pierwszym poziomie znajdują się dwie sypialnie (w tym jedna przechodnia), salon z kuchnią oraz łaziennka. Pierwsza sypialnia posiada duże łóżko podwójne. Druga sypialnia dwa łóżka pojedyncze. W salonie jest duża, rozkładana kanapa. Kuchnia wyposażona jest w lodówkę z zamrażarnikiem, kuchenkę mikrofalową, płytę indukcyjną, zmywarkę oraz duży wybór przyborów kuchennych. W łazience znajduje się prysznic, umywalka oraz pralka. Na antresoli znajduje się kolejna sypialnia z dwoma pojedynczymi łóżkami. Zapraszamy do nas! Dołożymy wszelkich starań, aby był to niezapomniany czas 😊 Wierzymy, że jest to idealne miejsce na odpoczynek w górach ⛰️👪",
     "checkAvailability": "Sprawdź Dostępność",
-    "learnMore": "Dowiedz Się Więcej",
     "comfortable": "Komfortowy i Nowoczesny",
     "equipped": "W pełni wyposażony dla Twojej wygody"
   },
@@ -25,7 +24,17 @@
     "bathroom": "Łazienka",
     "livingArea2": "Pokój dzienny widok 2",
     "bedroom2": "Druga sypialnia",
-    "kitchen2": "Kuchnia widok 2"
+    "kitchen2": "Kuchnia widok 2",
+    "livingArea3": "Pokój dzienny widok 3",
+    "bathroom2": "Łazienka widok 2",
+    "houseOutside2": "Wygląd zewnętrzny widok 2",
+    "houseOutside3": "Wygląd zewnętrzny widok 3",
+    "interior2": "Wnętrze widok 2",
+    "interior3": "Wnętrze widok 3",
+    "interior4": "Wnętrze widok 4",
+    "fireplace": "Kominek",
+    "nightView1": "Widok nocny 1",
+    "nightView2": "Widok nocny 2"
   },
   "nav": {
     "home": "Strona Główna",
@@ -104,13 +113,10 @@
     "subtitle": "Masz pytania? Chętnie na nie odpowiemy",
     "phone": "Telefon",
     "phoneNumber": "+48 696 065 617",
-    "phoneHours": "Dostępny 9:00 - 20:00",
     "email": "Email",
     "emailAddress": "tatryhomepl@gmail.com",
-    "emailResponse": "Odpowiemy najszybciej jak to możliwe",
     "location": "Lokalizacja",
     "address": "Rysulówka 164/2, Kościelisko",
-    "addressDesc": "W sercu Tatr",
     "bookingCom": "Zobacz na Booking.com"
   },
   "footer": {

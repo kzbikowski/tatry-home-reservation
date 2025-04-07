@@ -26,7 +26,6 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.phone')}</h3>
                 <p className="text-gray-700">{t('contact.phoneNumber')}</p>
-                <p className="text-gray-500 text-sm mt-1">{t('contact.phoneHours')}</p>
               </div>
             </div>
 
@@ -37,7 +36,6 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.email')}</h3>
                 <p className="text-gray-700">{t('contact.emailAddress')}</p>
-                <p className="text-gray-500 text-sm mt-1">{t('contact.emailResponse')}</p>
               </div>
             </div>
 
@@ -48,7 +46,6 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold text-lg text-mountain-800 mb-1">{t('contact.location')}</h3>
                 <p className="text-gray-700">{t('contact.address')}</p>
-                <p className="text-gray-500 text-sm mt-1">{t('contact.addressDesc')}</p>
               </div>
             </div>
 
@@ -66,14 +63,15 @@ const Contact = () => {
           </div>
 
           <div className="h-[400px] rounded-lg overflow-hidden shadow-lg">
-            {/* This is where the Google Map would go in a production site */}
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41572.39805622731!2d19.926676235154075!3d49.29878039780329!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4715f29d6292fc85%3A0xb89a1ec99789e1d4!2sZakopane%2C%20Poland!5e0!3m2!1sen!2sus!4v1615800755555!5m2!1sen!2sus" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d656.2051522382183!2d19.86510449999999!3d49.29317669999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4715ed0162b25e0b%3A0x92c6f7015fdbd0f6!2sTatry%20Home!5e0!3m2!1sen!2spl!4v1714398711459!5m2!1sen!2spl" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               title="Tatry Home Location"
+              aria-label="Map showing Tatry Home in Kościelisko"
             ></iframe>
           </div>
         </div>

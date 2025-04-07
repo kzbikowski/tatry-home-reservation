@@ -7,10 +7,9 @@
   },
   "about": {
     "title": "Ihr Perfekter Bergurlaub",
-    "description1": "Tatry Home bietet einen außergewöhnlichen Aufenthalt im Herzen der schönen Tatra-Berge. Unsere moderne Wohnung bietet allen Komfort und Annehmlichkeiten für einen unvergesslichen Bergurlaub.",
-    "description2": "Egal ob Sie einen romantischen Urlaub, einen Familienurlaub oder ein Abenteuer mit Freunden planen, unsere Wohnung ist die perfekte Basis für die Erkundung der atemberaubenden Naturlandschaften, Wanderwege und kulturellen Sehenswürdigkeiten der Region.",
+    "description1": "Die Tatry Home Ferienwohnung befindet sich in einer ruhigen Bergdorf-Siedlung in Kościelisko. Sie liegt 1,5 km vom Chochołowska-Tal und 2 km vom Kościeliska-Tal entfernt. Beliebte Skilifte wie Szymoszkowa sind nur 5 Autominuten entfernt. Eine Bushaltestelle befindet sich am Haupteingang. Für jüngere Gäste steht ein Spielplatz zur Verfügung.",
+    "description2": "Vom Balkon der Wohnung aus können Sie an klaren Tagen ein wunderschönes Panorama der Tatra-Berge genießen. Die Wohnung hat 72m2. Im ersten Stock befinden sich zwei Schlafzimmer (eines davon ist ein Durchgangszimmer), ein Wohnzimmer mit Küche und ein Badezimmer. Das erste Schlafzimmer hat ein großes Doppelbett. Das zweite Schlafzimmer hat zwei Einzelbetten. Im Wohnzimmer gibt es ein großes ausziehbares Sofa. Die Küche ist mit einem Kühlschrank mit Gefrierfach, Mikrowelle, Induktionskochfeld, Geschirrspüler und einer großen Auswahl an Küchenutensilien ausgestattet. Das Bad verfügt über eine Dusche, ein Waschbecken und eine Waschmaschine. Auf der Galerie befindet sich ein weiteres Schlafzimmer mit zwei Einzelbetten. Wir laden Sie ein, bei uns zu übernachten! Wir werden unser Bestes tun, um Ihnen eine unvergessliche Zeit zu bereiten 😊 Wir glauben, dass dies der perfekte Ort ist, um in den Bergen zu entspannen ⛰️👪",
     "checkAvailability": "Verfügbarkeit Prüfen",
-    "learnMore": "Mehr Erfahren",
     "comfortable": "Komfortabel & Modern",
     "equipped": "Voll ausgestattet für Ihren Komfort"
   },
@@ -25,7 +24,17 @@
     "bathroom": "Badezimmer",
     "livingArea2": "Wohnbereich Ansicht 2",
     "bedroom2": "Zweites Schlafzimmer",
-    "kitchen2": "Küchenansicht 2"
+    "kitchen2": "Küchenansicht 2",
+    "livingArea3": "Wohnbereich Ansicht 3",
+    "bathroom2": "Badezimmer Ansicht 2",
+    "houseOutside2": "Außenansicht 2",
+    "houseOutside3": "Außenansicht 3",
+    "interior2": "Innenbereich Ansicht 2",
+    "interior3": "Innenbereich Ansicht 3",
+    "interior4": "Innenbereich Ansicht 4",
+    "fireplace": "Kamin",
+    "nightView1": "Nachtansicht 1",
+    "nightView2": "Nachtansicht 2"
   },
   "nav": {
     "home": "Startseite",

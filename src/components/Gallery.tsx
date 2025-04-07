@@ -11,36 +11,73 @@ const galleryImages = [
     altKey: "gallery.livingArea"
   },
   {
-    src: "images/mountain_view.jpg",
-    altKey: "gallery.mountainView"
+    src: "images/leaving_room_2.jpg",
+    altKey: "gallery.livingArea2"
+  },
+  {
+    src: "images/leaving_room_3.jpg",
+    altKey: "gallery.livingArea3"
+  },
+  // Second row - fireplace and night photos
+  {
+    src: "images/kominek.jpg",
+    altKey: "gallery.fireplace"
+  },
+  {
+    src: "images/night_1.jpg",
+    altKey: "gallery.nightView1"
+  },
+  {
+    src: "images/night_2.jpg",
+    altKey: "gallery.nightView2"
   },
   {
     src: "images/bedroom1.jpg",
     altKey: "gallery.bedroom"
   },
   {
-    src: "images/house_outside.jpg",
-    altKey: "gallery.houseExterior"
+    src: "images/bedroom2.jpg",
+    altKey: "gallery.bedroom2"
   },
   {
     src: "images/kitchen.jpg",
     altKey: "gallery.kitchen"
   },
   {
+    src: "images/kitchen_2.jpg",
+    altKey: "gallery.kitchen2"
+  },
+  {
     src: "images/bathroom_1.jpg",
     altKey: "gallery.bathroom"
   },
   {
-    src: "images/leaving_room_2.jpg",
-    altKey: "gallery.livingArea2"
+    src: "images/bathroom_2.jpg",
+    altKey: "gallery.bathroom2"
   },
   {
-    src: "images/bedroom2.jpg",
-    altKey: "gallery.bedroom2"
+    src: "images/mountain_view.jpg",
+    altKey: "gallery.mountainView"
   },
   {
-    src: "images/kitchen_2.jpg",
-    altKey: "gallery.kitchen2"
+    src: "images/house_outside.jpg",
+    altKey: "gallery.houseExterior"
+  },
+  {
+    src: "images/house_outside_2.jpg",
+    altKey: "gallery.houseOutside2"
+  },
+  {
+    src: "images/interior_2.jpg",
+    altKey: "gallery.interior2"
+  },
+  {
+    src: "images/interior_3.jpg",
+    altKey: "gallery.interior3"
+  },
+  {
+    src: "images/interior_4.jpg",
+    altKey: "gallery.interior4"
   }
 ];
 

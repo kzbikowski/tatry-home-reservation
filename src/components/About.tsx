@@ -4,6 +4,13 @@ import { getImagePath } from '@/lib/utils';
 
 const About = () => {
   const { t } = useLanguage();
+  
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="py-16 md:py-24 bg-gray-50">
@@ -20,11 +27,11 @@ const About = () => {
               {t('about.description2')}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button className="bg-tatryhome-700 hover:bg-tatryhome-800">
+              <Button 
+                className="bg-tatryhome-700 hover:bg-tatryhome-800"
+                onClick={() => scrollToSection('booking')}
+              >
                 {t('about.checkAvailability')}
-              </Button>
-              <Button variant="outline" className="border-tatryhome-700 text-tatryhome-700 hover:bg-tatryhome-50">
-                {t('about.learnMore')}
               </Button>
             </div>
           </div>

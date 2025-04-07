@@ -7,10 +7,9 @@
   },
   "about": {
     "title": "Your Perfect Mountain Retreat",
-    "description1": "Tatry Home offers an exceptional stay in the heart of the beautiful Tatra Mountains. Our modern apartment provides all the comfort and amenities you need for an unforgettable mountain vacation.",
-    "description2": "Whether you're planning a romantic getaway, a family vacation, or an adventure with friends, our apartment is the perfect base for exploring the stunning natural landscapes, hiking trails, and cultural attractions of the region.",
+    "description1": "Tatry Home Apartment is located in a quiet highland cottage neighborhood in Kościelisko. It is 1.5 km from Chochołowska Valley and 2 km from Kościeliska Valley. Popular ski lifts like Szymoszkowa are just a 5-minute drive away. A bus stop is located at the main gate. For younger guests, there is a playground available.",
+    "description2": "From the apartment balcony, you can enjoy a beautiful panorama of the Tatra Mountains on clear days. The apartment has 72m2. On the first level, there are two bedrooms (one of which is a walk-through), a living room with a kitchen, and a bathroom. The first bedroom has a large double bed. The second bedroom has two single beds. The living room features a large fold-out sofa. The kitchen is equipped with a refrigerator with freezer, microwave, induction cooktop, dishwasher, and a large selection of kitchen utensils. The bathroom has a shower, sink, and washing machine. In the mezzanine, there is another bedroom with two single beds. We invite you to stay with us! We will do our best to make this an unforgettable time 😊 We believe this is the perfect place to relax in the mountains ⛰️👪",
     "checkAvailability": "Check Availability",
-    "learnMore": "Learn More",
     "comfortable": "Comfortable & Modern",
     "equipped": "Fully equipped for your convenience"
   },
@@ -25,7 +24,17 @@
     "bathroom": "Bathroom",
     "livingArea2": "Living area view 2",
     "bedroom2": "Second bedroom",
-    "kitchen2": "Kitchen view 2"
+    "kitchen2": "Kitchen view 2",
+    "livingArea3": "Living area view 3",
+    "bathroom2": "Bathroom view 2",
+    "houseOutside2": "House exterior view 2",
+    "houseOutside3": "House exterior view 3",
+    "interior2": "Interior view 2",
+    "interior3": "Interior view 3",
+    "interior4": "Interior view 4",
+    "fireplace": "Fireplace",
+    "nightView1": "Night view 1",
+    "nightView2": "Night view 2"
   },
   "nav": {
     "home": "Home",
