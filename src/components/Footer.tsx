@@ -36,6 +36,7 @@ const Footer = () => {
               <li><a href="#home" className="text-gray-300 hover:text-white transition-colors">{t('footer.home')}</a></li>
               <li><a href="#gallery" className="text-gray-300 hover:text-white transition-colors">{t('footer.gallery')}</a></li>
               <li><a href="#amenities" className="text-gray-300 hover:text-white transition-colors">{t('footer.amenities')}</a></li>
+              <li><a href="#guest-stories" className="text-gray-300 hover:text-white transition-colors">{t('nav.guestStories')}</a></li>
               <li><a href="#booking" className="text-gray-300 hover:text-white transition-colors">{t('footer.booking')}</a></li>
             </ul>
           </div>

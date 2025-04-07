@@ -65,6 +65,7 @@ const Navbar = () => {
             <a href="#home" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.home')}</a>
             <a href="#gallery" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.gallery')}</a>
             <a href="#amenities" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.amenities')}</a>
+            <a href="#guest-stories" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.guestStories')}</a>
             <a href="#booking" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.bookNow')}</a>
             <a href="#contact" className="text-mountain-800 hover:text-tatryhome-600 font-medium transition-colors">{t('nav.contact')}</a>
             <LanguageSwitcher />
@@ -95,6 +96,7 @@ const Navbar = () => {
             <a href="#home" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.home')}</a>
             <a href="#gallery" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.gallery')}</a>
             <a href="#amenities" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.amenities')}</a>
+            <a href="#guest-stories" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.guestStories')}</a>
             <a href="#booking" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.bookNow')}</a>
             <a href="#contact" className="text-mountain-800 py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>{t('nav.contact')}</a>
             <Button 

@@ -40,6 +40,7 @@
     "home": "Strona Główna",
     "gallery": "Galeria",
     "amenities": "Udogodnienia",
+    "guestStories": "Historie Gości",
     "bookNow": "Rezerwacja",
     "contact": "Kontakt",
     "reserve": "Zarezerwuj"
@@ -140,5 +141,10 @@
     "privacy": "Polityka Prywatności",
     "terms": "Regulamin",
     "cookies": "Polityka Cookies"
+  },
+  "reviews": {
+    "title": "Historie Gości",
+    "subtitle": "Co mówią o nas nasi goście",
+    "viewAll": "Zobacz wszystkie opinie na Booking.com"
   }
 } 

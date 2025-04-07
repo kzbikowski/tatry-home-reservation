@@ -40,6 +40,7 @@
     "home": "Home",
     "gallery": "Gallery",
     "amenities": "Amenities",
+    "guestStories": "Guest Stories",
     "bookNow": "Book Now",
     "contact": "Contact",
     "reserve": "Reserve"
@@ -121,6 +122,11 @@
     "address": "Rysulówka 164/2, Kościelisko",
     "addressDesc": "In the heart of the Tatra Mountains",
     "bookingCom": "View on Booking.com"
+  },
+  "reviews": {
+    "title": "Guest Stories",
+    "subtitle": "What our guests say about their stay",
+    "viewAll": "View all reviews on Booking.com"
   },
   "footer": {
     "contact": "Contact",
