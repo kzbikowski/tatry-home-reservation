@@ -1,8 +1,8 @@
 import { Star } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
-// Reviews data
-const reviewsData = [
+// Reviews data (Polish version - original)
+const plReviews = [
   {
     name: "Irepry",
     comment: "Piękny domek w pięknym otoczenieniu takie małe osiedle domków z bramką i portierem na wjeździe w otoczeniu gór i cudownych widoków. Czystość i wystrój na plus. Jest wszystko co potrzebne nawet zmywarka pralka i mikrofalówka. Blisko do szlaków jak i do samego Zakopanego jeśli się jest autem to nie problem za to cisza i piękne widoki to marzenie żeby tak co dzień się budzić w takim miejscu. Żal było odjeżdżać...pewnie jeszcze kiedyś tam wrócimy."
@@ -45,8 +45,96 @@ const reviewsData = [
   }
 ];
 
+// Translations of Polish reviews to English
+const enReviews = [
+  {
+    name: "Irepry",
+    comment: "Beautiful cottage in a lovely setting - a small gated community with a porter at the entrance, surrounded by mountains and wonderful views. Clean and well-decorated. Everything you need is there, even a dishwasher, washing machine, and microwave. Close to hiking trails and Zakopane itself if you have a car. The peace and beautiful views make you wish you could wake up there every day. It was sad to leave... we'll definitely return someday."
+  },
+  {
+    name: "Wojciech",
+    comment: "Apartment located in a gated area among several stylish houses. The property is well-maintained and very clean. The 8-person accommodations are spacious and comfortable."
+  },
+  {
+    name: "Marta",
+    comment: "Very spacious and modern apartment, excellently equipped. We visited with friends, a place worth recommending, great service. The owner was nice and helpful."
+  },
+  {
+    name: "Alex",
+    comment: "Host speaks great english, so communcation was super easy. The apartment is located in a quiet, gated community with parking spots. Had no issues with anything, the rooms and facilities were as advertised. An absolutely recommendable place for anyone wanting to stay close to the city center, but still enjoy the peace of the outskirts."
+  },
+  {
+    name: "Marisa",
+    comment: "House in a very nice green and quiet area and great host"
+  },
+  {
+    name: "Robert",
+    comment: "Very comfortable, convenient, spacious interiors; a very special place for family where everyone found their own corner. Amazing evenings by the fireplace. Good starting point to visit other places. Designated parking space. Good contact with the owner and staff. Beautiful views from the window. I highly recommend this place."
+  },
+  {
+    name: "Marta",
+    comment: "Spacious apartment for the whole family, very clean, everything you need on site. Washing machine, dishwasher. Comfortable beds, beautiful views. Plus for parking and nice gentlemen at the entrance."
+  },
+  {
+    name: "Dorota",
+    comment: "Beautiful view. Great location. Very open and communicative owner."
+  },
+  {
+    name: "Robert",
+    comment: "Another successful stay at this location, away from noise and tourist crowds. I recommend it to the undecided. You will keep coming back."
+  },
+  {
+    name: "Ewelina",
+    comment: "Wonderful new house in highland style, away from the hustle and bustle. Beautiful panorama of the Tatra Mountains from the windows. Convenient location, close to Chochołowska and Kościeliska Valley."
+  }
+];
+
+// Translations of Polish reviews to German
+const deReviews = [
+  {
+    name: "Irepry",
+    comment: "Schönes Ferienhaus in einer wunderschönen Umgebung - eine kleine Wohnsiedlung mit Tor und Portier am Eingang, umgeben von Bergen und herrlichem Ausblick. Sauberkeit und Einrichtung sind ein Plus. Alles Notwendige ist vorhanden, sogar Geschirrspüler, Waschmaschine und Mikrowelle. Nahe zu Wanderwegen und zu Zakopane selbst, wenn man ein Auto hat. Die Ruhe und die schönen Ausblicke lassen einen wünschen, jeden Tag dort aufzuwachen. Es war traurig, abzureisen... wir werden sicher irgendwann zurückkehren."
+  },
+  {
+    name: "Wojciech",
+    comment: "Apartment in einem geschlossenen Bereich zwischen mehreren stilvollen Häusern gelegen. Das Objekt ist gepflegt und sehr sauber. Die 8-Personen-Unterkunft ist geräumig und komfortabel."
+  },
+  {
+    name: "Marta",
+    comment: "Sehr geräumige und moderne Wohnung, hervorragend ausgestattet. Wir waren mit Freunden dort, ein empfehlenswerter Ort, toller Service. Der Eigentümer war nett und hilfsbereit."
+  },
+  {
+    name: "Alex",
+    comment: "Host speaks great english, so communcation was super easy. The apartment is located in a quiet, gated community with parking spots. Had no issues with anything, the rooms and facilities were as advertised. An absolutely recommendable place for anyone wanting to stay close to the city center, but still enjoy the peace of the outskirts."
+  },
+  {
+    name: "Marisa",
+    comment: "House in a very nice green and quiet area and great host"
+  },
+  {
+    name: "Robert",
+    comment: "Sehr komfortable, bequeme, geräumige Innenräume; ein besonderer Ort für Familien, an dem jeder seine eigene Ecke findet. Wundervolle Abende am Kamin. Guter Ausgangspunkt, um andere Orte zu besuchen. Zugewiesener Parkplatz. Guter Kontakt zum Eigentümer und Personal. Schöne Aussicht aus dem Fenster. Ich empfehle diesen Ort sehr."
+  },
+  {
+    name: "Marta",
+    comment: "Geräumige Wohnung für die ganze Familie, sehr sauber, alles was man braucht vor Ort. Waschmaschine, Geschirrspüler. Bequeme Betten, schöne Aussicht. Pluspunkt für Parkplatz und nette Herren am Eingang."
+  },
+  {
+    name: "Dorota",
+    comment: "Wunderschöne Aussicht. Tolle Lage. Sehr offener und kommunikativer Eigentümer."
+  },
+  {
+    name: "Robert",
+    comment: "Ein weiterer erfolgreicher Aufenthalt an diesem Ort, fernab von Lärm und Touristenmassen. Ich empfehle es den Unentschlossenen. Sie werden immer wieder zurückkommen."
+  },
+  {
+    name: "Ewelina",
+    comment: "Wunderbares neues Haus im Gebirgsstil, abseits vom Trubel. Wunderschönes Panorama der Tatra-Berge von den Fenstern aus. Günstige Lage, nahe dem Chochołowska- und Kościeliska-Tal."
+  }
+];
+
 // Helper function to categorize reviews by length
-const categorizeReviews = () => {
+const categorizeReviews = (reviewsData) => {
   const long = [];
   const medium = [];
   const short = [];
@@ -65,8 +153,22 @@ const categorizeReviews = () => {
 };
 
 const Reviews = () => {
-  const { t } = useLanguage();
-  const { long, medium, short } = categorizeReviews();
+  const { t, language } = useLanguage();
+  
+  // Select the appropriate reviews based on language
+  let reviewsData;
+  switch (language) {
+    case 'en':
+      reviewsData = enReviews;
+      break;
+    case 'de':
+      reviewsData = deReviews;
+      break;
+    default:
+      reviewsData = plReviews;
+  }
+  
+  const { long, medium, short } = categorizeReviews(reviewsData);
   
   return (
     <section id="guest-stories" className="py-12 md:py-16 bg-gray-50 scroll-mt-24">
