@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import enTranslations from './i18n/locales/en.json';
 import plTranslations from './i18n/locales/pl.json';
 import deTranslations from './i18n/locales/de.json';
@@ -48,6 +48,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     
     return translation;
   };
+
+  // Update document title when language changes
+  useEffect(() => {
+    document.title = t('pageTitle');
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
